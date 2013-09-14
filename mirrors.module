@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * Creates an Export View and an Import Feed for your entities
+ */
+
+/* There is a 'base' configuration. This one contains things like 'CSV', ';', etc.
+Per entity-bundle we create a feed importer and a views-exporter.
+We use fields and properties attached to an entity-bundle.
+
+Baseline:
+ 1. a function that returns fields and properties for an entity-bundle, or all entity-bundles
+ 2. a function that creates a feed-configuration (specificly mapping) from a bundle-field-configuration
+ 3. a function that creates a view-configuration from a bundle-field-configuration
+ 
+ 4. a function that calls (1) an 'renders' the views and feeds
+ 5. a config-ui (on a central place) that calls 4 (default all enabled)
+ 6. a splitted config-ui (on entity settings page) that calls 4
+ 
+ 7. entity 'crud' listeners
+ 8. call 4 on install
+ */
+
+
+// include mymodule/includes/import.inc
+module_load_include('inc', 'mirrors', 'mirrors.feeds');
+//module_load_include('inc', 'mirrors', 'mirrors.migrate');
+module_load_include('inc', 'mirrors', 'mirrors.views');
+module_load_include('inc', 'mirrors', 'mirrors.mappers');
+
+/**
+ * Implements hook_menu()
+ * A url to work from
+ */
+function mirrors_menu() {
+  $items = array();
+  $items['mirrors'] = array(
+    'title' => 'Mirrors INIT test',
+    'page callback' => 'mirrors_basic_page',    
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+/**
+ * Form submission handler for feeds_ui_importer_import().
+ *
+ * @see feeds_ui_importer_import_validate()
+ */
+function mirrors_basic_page() {
+  drupal_set_title(t('Mirrors'));
+  return array('#markup' => '<p>' . t('Simple page: The quick brown fox jumps over the lazy dog.') . '</p>');
+}
+
+function mirrors_get_entity_field_mappers() {
+  $bundles = _mirrors_get_bundles();
+  $bundles = _mirrors_get_bundle_settings($bundles);
+  
+  return $bundles;
+}
+
+
+// returns a simple array with active bundles per entity_type
+//    array(
+//      'node' = array('page', 'article'),
+//      'taxonomy = array('vocab_1', ...
+//    )
+//
+function _mirrors_get_bundles() {
+  $bundles_simplified = array();
+
+  $bundles = field_info_bundles();
+  foreach ($bundles as $entity_type => $bundle) {
+    switch ($entity_type) {
+      case 'node':
+      case 'taxonomy_term':
+      case 'user':      
+        foreach ($bundle as $entity_id => $entity) {
+          $bundles_simplified[$entity_type][$entity_id] = array();
+        }
+    }
+  }
+  
+  return $bundles_simplified;
+}
+
+// adds properties and fields to bundles
+function _mirrors_get_bundle_settings($bundles) {
+  $entities = entity_get_property_info();
+
+  // loop all, test for fields, if yes add field mapping
+  foreach ($bundles as $entity_type => &$bundle) {
+    foreach ($bundle as $entity_id => &$entity) {
+      
+      // Test if bundle contains fields
+      $fields = array();
+      if (isset(  $entities[$entity_type]['bundles'][$entity_id]['properties']  )) {
+        $fields = $entities[$entity_type]['bundles'][$entity_id]['properties'];
+      }
+
+      $properties = mirrors_getMappingTargets($entity_type);
+      $entity = array_merge($properties, $fields);
+    }
+  }
+  
+  return $bundles;
+}

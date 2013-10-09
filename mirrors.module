@@ -62,7 +62,7 @@ function mirrors_get_entity_field_mappers() {
 }
 
 
-// returns a simple array with active bundles per entity_type
+// returns a simple array with active bundles per bundle_type
 //    array(
 //      'node' = array('page', 'article'),
 //      'taxonomy = array('vocab_1', ...
@@ -70,16 +70,70 @@ function mirrors_get_entity_field_mappers() {
 //
 function _mirrors_get_bundles() {
   $bundles_simplified = array();
-
   $bundles = field_info_bundles();
-  foreach ($bundles as $entity_type => $bundle) {
-    switch ($entity_type) {
-      case 'node':
-      case 'taxonomy_term':
-      case 'user':      
-        foreach ($bundle as $entity_id => $entity) {
-          $bundles_simplified[$entity_type][$entity_id] = array();
+
+  $mirror_bundle_types = array('node', 'taxonomy_term', 'user');
+  drupal_alter('mirrors_bundles', $mirror_bundle_types);
+
+  foreach ($bundles as $bundle_type => $bundle) {
+    if (in_array($bundle_type, $mirror_bundle_types)) {  
+      //dvm('supported bundle type: ' . $bundle_type . ' @mirrors.module');
+      //dpm(entity_metadata_wrapper($bundle_type)->getPropertyInfo());
+      $properties = entity_metadata_wrapper($bundle_type)->getPropertyInfo();
+      
+      // First check on 'schema field'
+      $schema = array();
+      foreach($properties as $key => $value) {
+        if(isset($value['schema field'])) {
+          $schema[$key]['schema field'] = $value['schema field'];
+          
+          if(isset($value['type'])) {
+            $schema[$key]['type'] = $value['type'];
+          }
         }
+      }
+      //dvm($schema);
+      
+      // Second check on 'setter'-callbacks
+      $schema = array();
+      foreach($properties as $key => $value) {
+        if(isset($value['setter callback'])) {
+          
+          $schema[$key]['setter callback'] = $value['setter callback'];
+          
+          if(isset($value['type'])) {
+            $schema[$key]['type'] = $value['type'];
+          }
+        }  
+      }
+      //dvm('====');
+      //dvm($schema);
+      
+    }
+    
+    if (in_array($bundle_type, $mirror_bundle_types)) {
+      foreach ($bundle as $entity_id => $entity) {
+        $properties = entity_metadata_wrapper($bundle_type, NULL, array('bundle' => $entity_id,))->getPropertyInfo();
+        // First check on 'schema field'
+        $schema = array();
+        foreach($properties as $key => $value) {
+          if(isset($value['schema field'])) {
+            $schema[$key]['schema field'] = $value['schema field'];
+            
+            if(isset($value['type'])) {
+              $schema[$key]['type'] = $value['type'];
+            }
+          }
+        }
+        //dvm($schema);
+      
+        //dpm($properties);
+        $bundles_simplified[$bundle_type][$entity_id] = array();
+      }
+    }
+    else {  
+      // Unsupported bundle_type
+      dvm('unsupported bundle type: ' . $bundle_type . ' @mirrors.module');
     }
   }
   
@@ -91,19 +145,104 @@ function _mirrors_get_bundle_settings($bundles) {
   $entities = entity_get_property_info();
 
   // loop all, test for fields, if yes add field mapping
-  foreach ($bundles as $entity_type => &$bundle) {
+  foreach ($bundles as $bundle_type => &$bundle) {
     foreach ($bundle as $entity_id => &$entity) {
-      
+    
+        $properties = entity_metadata_wrapper($bundle_type, NULL, array('bundle' => $entity_id,))->getPropertyInfo();
+        // First check on 'schema field'
+        $schema = array();
+        foreach($properties as $key => $value) {
+          if(isset($value['schema field'])) {
+            $schema[$key]['schema field'] = $value['schema field'];
+            
+            if(isset($value['type'])) {
+              $schema[$key]['type'] = $value['type'];
+            }
+          }
+        }
+       //dvm($schema);
+    
       // Test if bundle contains fields
       $fields = array();
-      if (isset(  $entities[$entity_type]['bundles'][$entity_id]['properties']  )) {
-        $fields = $entities[$entity_type]['bundles'][$entity_id]['properties'];
+      if (isset(  $entities[$bundle_type]['bundles'][$entity_id]['properties']  )) {
+        $fields = $entities[$bundle_type]['bundles'][$entity_id]['properties'];
+       // dpm($fields);
       }
 
-      $properties = mirrors_getMappingTargets($entity_type);
+      $properties = mirrors_get_bundle_properties($bundle_type);
+      //dpm($properties);
+      // Implements hook_mirrors_mappingtargets_alter($bundle_type);
+      //dvm('====');
+      
+      
       $entity = array_merge($properties, $fields);
     }
   }
   
   return $bundles;
 }
+
+
+//************** DO THINGS WITH HOOKS ***********//
+function mirrors_say($data = array()) {
+  $data['mirrors_say'] = 'mirrors_say';
+  drupal_alter('mirrors_say', $data);
+  return $data;
+}
+
+
+/**
+ * @function
+ * Return array with all bundles and fields
+ */
+function mirrors_bundles() {
+  $bundles = field_info_bundles();
+  
+  $bundles = _mirrors_get_bundles();
+  foreach($bundles as $bundle) {
+    $bundles = _mirrors_get_fields($bundle);
+  }
+  
+  drupal_alter('mirrors_bundles', $bundles);
+  return $bundles;
+}
+
+function _mirrors_get_fields($bundle) {
+  $fields = array();
+
+  return $fields;
+}
+
+function mirrors_entity_properties($bundle_type) {
+  
+  $entity_properties = mirrors_entity_properties_defaults($bundle_type);
+  // $data = array('node' => array('status' => array('type' => 'boolean', 'author' => 'uid' , ....) 
+  drupal_alter('mirrors_entity_properties', $entity, $entity_properties);
+  return $entity_properties;
+}
+
+function mirrors_entity_fields($entity) {
+  
+  // $data = array('node' => array('status' => array('type' => 'boolean', 'author' => 'uid' , ....) 
+  drupal_alter('mirrors_entity_fields', $entity, $entity_fields);
+  return $entity_fields;
+}
+
+
+function mirrors_field_mapping($field) {
+  
+  drupal_alter('mirrors_field_mapping', $field, $field_mapping);
+  return $field_mapping;
+}
+
+function mirrors_field_mapper($field, $bundle_type = '') {
+  // Test for List
+  
+  // Core Fields
+  if ($field['type'] == 'text') {
+  }
+  elseif ($field['type'] == 'boolean') {
+  }
+  drupal_alter('mirrors_field_mapper', $field);
+}
+

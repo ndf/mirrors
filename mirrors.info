@@ -7,5 +7,9 @@ dependencies[] = views_data_export (>7.x-3.0-beta6+42)
 dependencies[] = feeds
 dependencies[] = boolean_formatter
 dependencies[] = entity
+dependencies[] = migrate
+dependencies[] = migrate_ui (>7.x-2.5)
+
+files[] = mirrors.migrate.inc
 project = mirrors
 version = "7.x-1.x-dev"

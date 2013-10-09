@@ -41,6 +41,38 @@ function mirrors_views_default_views() {
  * Default definition of 'myimporter'
  */ 
 function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id, $entity_field_mappers) {
+  $view_mirror = array(
+    'taxonomy_term' => array(
+      'base_table' => 'taxonomy_term_data',
+      'guid' => array(
+        'tid' => 'taxonomy_term_data',
+      ),
+      'filters' => array(
+        'machine_name', 'taxonomy_vocabulary',
+      ),
+      // Sort only with lineage module (hook?)
+      'sorts' => array(
+        'depth' => 'taxonomy_term_lineage',
+        'lineage' => 'taxonomy_term_lineage',
+      ),
+    ),
+    'commerce_customer_profile' => array(
+      'base_table' => 'taxonomy_term_data',
+      'guid' => array(
+        'profile_id' => 'commerce_customer_profile',
+      ),
+      'relationships' => array(
+        'uid' => 'commerce_customer_profile',
+      ),
+    ),
+  )
+  
+  ;
+  
+
+  
+  
+
   if ($entity_type == 'node') {
     $base_table  = 'node';
   }
@@ -49,6 +81,12 @@ function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id,
   }
   elseif ($entity_type == 'user') {
     $base_table  = 'users';
+  }
+  elseif ($entity_type == 'commerce_product') {
+    $base_table = 'commerce_product';
+  }
+  elseif ($entity_type == 'commerce_customer_profile') {
+    $base_table = 'commerce_customer_profile';
   }
   else {
     return FALSE;
@@ -115,6 +153,19 @@ function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id,
     $handler->display->display_options['relationships'] = $relationships;
   }
   
+  if ($entity_type == 'commerce_customer_profile') {
+    $relationships = array();
+
+    /* Relationship: Commerce Customer Profile: Owner */
+    $relationships['uid'] = array(
+      'id' => 'uid',
+      'table' => 'commerce_customer_profile',
+      'field' => 'uid',
+    );
+
+    $handler->display->display_options['relationships'] = $relationships;
+  }
+  
   /* Filter criterion */
   if ($entity_type == 'node') {
     $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -129,6 +180,22 @@ function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id,
     $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
     $handler->display->display_options['filters']['machine_name']['field'] = 'machine_name';
     $handler->display->display_options['filters']['machine_name']['value'] = array(
+      $entity_id => $entity_id,
+    );
+  }
+  elseif ($entity_type == 'commerce_product') {
+    $handler->display->display_options['filters']['type']['id'] = 'type';
+    $handler->display->display_options['filters']['type']['table'] = 'commerce_product';
+    $handler->display->display_options['filters']['type']['field'] = 'type';
+    $handler->display->display_options['filters']['type']['value'] = array(
+      $entity_id => $entity_id,
+    );
+  }
+  elseif ($entity_type == 'commerce_customer_profile') {
+    $handler->display->display_options['filters']['type']['id'] = 'type';
+    $handler->display->display_options['filters']['type']['table'] = 'commerce_customer_profile';
+    $handler->display->display_options['filters']['type']['field'] = 'type';
+    $handler->display->display_options['filters']['type']['value'] = array(
       $entity_id => $entity_id,
     );
   }
@@ -152,42 +219,61 @@ function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id,
     $handler->display->display_options['fields']['guid']['field'] = 'uid';
     $handler->display->display_options['fields']['guid']['label'] = 'guid';
   }
+  elseif ($entity_type == 'commerce_product') {
+    $handler->display->display_options['fields']['guid']['id'] = 'guid';
+    $handler->display->display_options['fields']['guid']['table'] = 'commerce_product';
+    $handler->display->display_options['fields']['guid']['field'] = 'sku';
+    $handler->display->display_options['fields']['guid']['label'] = 'guid';
+  }
+  elseif ($entity_type == 'commerce_customer_profile') {
+    $handler->display->display_options['fields']['guid']['id'] = 'guid';
+    $handler->display->display_options['fields']['guid']['table'] = 'commerce_customer_profile';
+    $handler->display->display_options['fields']['guid']['field'] = 'profile_id';
+    $handler->display->display_options['fields']['guid']['label'] = 'guid';
+  }
   
-  if (module_exists('menu_node_views')) {
-    /* Relationship: Menu: Parent menu link id */
-    $handler->display->display_options['relationships']['plid']['id'] = 'plid';
-    $handler->display->display_options['relationships']['plid']['table'] = 'menu_links';
-    $handler->display->display_options['relationships']['plid']['field'] = 'plid';
+  if ($entity_type == 'node') {
+    if (module_exists('menu_node_views')) {
+      /* Relationship: Menu: Parent menu link id */
+      $handler->display->display_options['relationships']['plid']['id'] = 'plid';
+      $handler->display->display_options['relationships']['plid']['table'] = 'menu_links';
+      $handler->display->display_options['relationships']['plid']['field'] = 'plid';
 
-    /* Field: Menu: Menu name */
-    $handler->display->display_options['fields']['menu_name']['id'] = 'menu_name';
-    $handler->display->display_options['fields']['menu_name']['table'] = 'menu_links';
-    $handler->display->display_options['fields']['menu_name']['field'] = 'menu_name';
-    $handler->display->display_options['fields']['menu_name']['label'] = 'menu_name';
-    /* Field: Menu: Link title */
-    $handler->display->display_options['fields']['link_title_1']['id'] = 'link_title_1';
-    $handler->display->display_options['fields']['link_title_1']['table'] = 'menu_links';
-    $handler->display->display_options['fields']['link_title_1']['field'] = 'link_title';
-    $handler->display->display_options['fields']['link_title_1']['relationship'] = 'plid';
-    $handler->display->display_options['fields']['link_title_1']['label'] = 'menu_parent_item';
-    $handler->display->display_options['fields']['link_title_1']['link_to_item'] = 0;
-    
-    /* Sort criterion: Menu: Depth */
-    $handler->display->display_options['sorts']['depth']['id'] = 'depth';
-    $handler->display->display_options['sorts']['depth']['table'] = 'menu_links';
-    $handler->display->display_options['sorts']['depth']['field'] = 'depth';
-    /* Sort criterion: Menu: Weight */
-    $handler->display->display_options['sorts']['weight']['id'] = 'weight';
-    $handler->display->display_options['sorts']['weight']['table'] = 'menu_links';
-    $handler->display->display_options['sorts']['weight']['field'] = 'weight';
+      /* Field: Menu: Menu name */
+      $handler->display->display_options['fields']['menu_name']['id'] = 'menu_name';
+      $handler->display->display_options['fields']['menu_name']['table'] = 'menu_links';
+      $handler->display->display_options['fields']['menu_name']['field'] = 'menu_name';
+      $handler->display->display_options['fields']['menu_name']['label'] = 'menu_name';
+      /* Field: Menu: Link title */
+      $handler->display->display_options['fields']['link_title_1']['id'] = 'link_title_1';
+      $handler->display->display_options['fields']['link_title_1']['table'] = 'menu_links';
+      $handler->display->display_options['fields']['link_title_1']['field'] = 'link_title';
+      $handler->display->display_options['fields']['link_title_1']['relationship'] = 'plid';
+      $handler->display->display_options['fields']['link_title_1']['label'] = 'menu_parent_item';
+      $handler->display->display_options['fields']['link_title_1']['link_to_item'] = 0;
+      
+      /* Sort criterion: Menu: Depth */
+      $handler->display->display_options['sorts']['depth']['id'] = 'depth';
+      $handler->display->display_options['sorts']['depth']['table'] = 'menu_links';
+      $handler->display->display_options['sorts']['depth']['field'] = 'depth';
+      /* Sort criterion: Menu: Weight */
+      $handler->display->display_options['sorts']['weight']['id'] = 'weight';
+      $handler->display->display_options['sorts']['weight']['table'] = 'menu_links';
+      $handler->display->display_options['sorts']['weight']['field'] = 'weight';
+    }
   }
   
   //** Field Mappers **//
   foreach ($entity_field_mappers as $key => $field_mapper) {
     $mapper = array();
     
+    // Kill reference fields
+    if ($key == 'commerce_customer_address') {
+      break;
+    }
     
-    // Check if Field
+    
+    // Fields
     if (isset($field_mapper['field']) && $field_mapper['field'] === TRUE) {
       $mapper['id'] = $key;
       $mapper['table'] = 'field_data_' . $key;
@@ -197,6 +283,7 @@ function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id,
       $mapper = mirrors_views_set_field_formatter($mapper, $field_mapper['type']);
       
     }
+    // Properties
     else {
       // Filter out 'relations' fields
       $arr = explode("_", $key, 2);
@@ -221,6 +308,12 @@ function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id,
           };
           if (isset($field_mapper['link_to_node'])) {
             $mapper['link_to_node'] = $field_mapper['link_to_node'];
+          };
+          if (isset($field_mapper['relationship'])) {
+            $mapper['relationship'] = $field_mapper['relationship'];
+          };
+          if (isset($field_mapper['table'])) {
+            $mapper['table'] = $field_mapper['table'];
           };
       }
     }
@@ -266,8 +359,20 @@ function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id,
   return $view;
 }
 
+
 function mirrors_views_set_field_formatter($mapper, $field_type) {
   $mapper['type'] = $field_type;
+  
+  // Check if we are dealing with a list
+  if(substr($field_type, 0, 4) == 'list') {
+    $mapper['separator'] = '/';
+    
+    // Extract field_type "list<$field_type>"
+    $length = strlen($field_type);
+    $field_type = substr($field_type, 5, $length - 6);
+  }
+  
+  // Per field parsing
   if ($field_type == 'boolean') {
     $mapper['type'] = 'boolean_yes_no';
     $mapper['settings'] = array(
@@ -299,10 +404,28 @@ function mirrors_views_set_field_formatter($mapper, $field_type) {
   elseif ($field_type == 'text') {
   }
   elseif ($field_type == 'taxonomy_term') {
+    $mapper['type'] = 'taxonomy_term_reference_plain';
+  }
+  elseif ($field_type == 'commerce_product') {
+    $mapper['type'] = 'commerce_product_reference_sku_plain';
+    $mapper['settings'] = array(
+      'view_mode' => 'full',
+      'page' => 1,
+    );
+  }
+  elseif ($field_type == 'commerce_price') {
+    $mapper['type'] = 'commerce_price_raw_amount';
+  }
+  elseif ($field_type == 'addressfield') {
+    $mapper['id'] = 'commerce_customer_address_' . $mapper['id'];
+    $mapper['table'] = 'field_data_commerce_customer_address';
+    $mapper['field'] = 'commerce_customer_address_' . $mapper['field'];
   }
   else {
-   dvm($field_type);
+    dvm('unsupported field_type: ' . $field_type . ' @mirror.views.inc');
+    dpm($mapper);
   }
-  
+    
+  // @2do: add hook to add more field_mappers
   return $mapper;
 }

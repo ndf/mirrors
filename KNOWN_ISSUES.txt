@@ -1,8 +1,8 @@
 ** NODE export / import **
-language property is exported in longformat ("English"), but imported as token ("EN")
---> might be solved with "raw output" Views patch
-multiple terms are exported with a comma (",") as separator, but importer needs feeds tamper plugin to explode on separator.
---> solved with feeds_tamper, but no hook / method to call
+language property is exported in longformat ("English"), but imported as token ("EN").
+--> might be solved with "raw output" Views patch.
+multiple terms are exported with a comma (",") as separator, but importer needs Feeds Tamper plugin to explode on separator.
+--> solved with feeds_tamper, but no hook / method to call.
 
 ** TAXONOMY export / import **
 property "tid" not supported by feeds. Using "name" as unique identifier.

@@ -1,4 +1,4 @@
-The Mirrors modules automagicly creates exporters and importers for active
+The Mirrors module automagicly creates exporters and importers for active
 bundles.
 Exports are Views Data Exports in CSV format.
 Imports are Feeds.

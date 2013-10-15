@@ -10,7 +10,7 @@
 function mirrors_example_node_info() {
   $items = array(
     'no_fields' => array(
-      'name' => t('Content No Fields'),
+      'name' => t('Content no Fields'),
       'base' => 'node_content',
       'description' => '',
       'has_title' => '1',

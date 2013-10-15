@@ -2,12 +2,13 @@
 
 /**
  * @file
- * Views Related
+ * Feeds Related
  */
 
- 
+module_load_include('inc', 'mirrors', 'mirrors.views.template');
+
 /**
- * Implementation of hook_views_api().
+ * Implements hook_views_api().
  */
 function mirrors_views_api() {
   return array(
@@ -16,17 +17,17 @@ function mirrors_views_api() {
 }
 
 /**
- * Implementation of hook_views_default_views().
+ * Implements hook_views_default_views().
  */
 function mirrors_views_default_views() {
   $export = array();
-  
-  $bundles = mirrors_get_entity_field_mappers();
+
+  $bundles = mirrors_bundles();
   foreach ($bundles as $entity_type => $bundle) {
-    foreach ($bundle as $entity_id => $entity_field_mappers) {
-    
+    foreach ($bundle as $entity_id => $mirrors_entity) {
+
       $importer_name = "mirrors_" . $entity_type . "__" . $entity_id;
-      $try = mirrors_views_get_view_config($importer_name, $entity_type, $entity_id, $entity_field_mappers);
+      $try = mirrors_views_exporter_create($importer_name, $entity_type, $entity_id, $mirrors_entity);
       if ($try !== FALSE) {
         $export[$importer_name] = $try;
       }
@@ -38,394 +39,129 @@ function mirrors_views_default_views() {
 
 
 /**
- * Default definition of 'myimporter'
- */ 
-function mirrors_views_get_view_config($importer_name, $entity_type, $entity_id, $entity_field_mappers) {
-  $view_mirror = array(
-    'taxonomy_term' => array(
-      'base_table' => 'taxonomy_term_data',
-      'guid' => array(
-        'tid' => 'taxonomy_term_data',
-      ),
-      'filters' => array(
-        'machine_name', 'taxonomy_vocabulary',
-      ),
-      // Sort only with lineage module (hook?)
-      'sorts' => array(
-        'depth' => 'taxonomy_term_lineage',
-        'lineage' => 'taxonomy_term_lineage',
-      ),
-    ),
-    'commerce_customer_profile' => array(
-      'base_table' => 'taxonomy_term_data',
-      'guid' => array(
-        'profile_id' => 'commerce_customer_profile',
-      ),
-      'relationships' => array(
-        'uid' => 'commerce_customer_profile',
-      ),
-    ),
-  )
-  
-  ;
-  
+ * $importer_name
+ * $entity_type
+ * $mirrors_entity
+ * $entity_id
+ *
+ */
+function mirrors_views_exporter_create($importer_name, $entity_type, $entity_id, $mirrors_entity) {
+  $base_table = $mirrors_entity['views']['base_table'];
 
+  /* Display Options */
+  $display_options = array();
   
-  
-
-  if ($entity_type == 'node') {
-    $base_table  = 'node';
-  }
-  elseif ($entity_type == 'taxonomy_term') {
-    $base_table  = 'taxonomy_term_data';
-  }
-  elseif ($entity_type == 'user') {
-    $base_table  = 'users';
-  }
-  elseif ($entity_type == 'commerce_product') {
-    $base_table = 'commerce_product';
-  }
-  elseif ($entity_type == 'commerce_customer_profile') {
-    $base_table = 'commerce_customer_profile';
-  }
-  else {
-    return FALSE;
-  }
-  
-  // Build up the View
-  $view = new view();
-  $view->name = $importer_name;
-  $view->description = 'Export ' . $entity_type . 's to CSV file.';
-  $view->tag = 'Mirrors';
-  $view->base_table = $base_table;
-  $view->human_name = $importer_name;
-  $view->core = 7;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['cache']['type'] = 'none';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['style_plugin'] = 'table';
+  /* Filters */
+  $display_options['filters'] = mirrors_views_filters_create($mirrors_entity, $entity_id);
 
   /* Relations and Sorts */
+  $display_options['relationships'] = mirrors_views_relationships_create($mirrors_entity);
+  $display_options['sorts'] = mirrors_views_sorts_create($mirrors_entity);
+
+  /* Fields */
+  $display_options['fields'] = mirrors_views_mapping_create($mirrors_entity, $base_table);
+
+  $view = mirrors_views_default_template($importer_name, $entity_type, $base_table, $display_options);
+
   
-  if ($entity_type == 'taxonomy_term') {
-    $relationships = array();
-    $sorts = array();
-
-    // Sort only if Lineage module is enabled.
-    if (module_exists('lineage')) {
-      $sorts['depth'] = array(
-        'id' => 'depth',
-        'table' => 'taxonomy_term_lineage',
-        'field' => 'depth',
-      );
-      $sorts['lineage'] = array(
-        'id' => 'lineage',
-        'table' => 'taxonomy_term_lineage',
-        'field' => 'lineage',
-      );
-    }
-    else {
-      /* Relationship: Taxonomy term: Parent term */
-      $relationships['parent'] = array(
-        'id' => 'parent',
-        'table' => 'taxonomy_term_hierarchy',
-        'field' => 'parent',
-      );
-
-      /* Sort criterion: Taxonomy term: Term ID */
-      $sorts['tid'] = array(
-        'id' => 'tid',
-        'table' => 'taxonomy_term_data',
-        'field' => 'tid',
-        'relationship' => 'parent',
-      );
-    }
-    
-    $handler->display->display_options['sorts'] = $sorts;
-    $handler->display->display_options['relationships'] = $relationships;
-  }
-  
-  if ($entity_type == 'commerce_customer_profile') {
-    $relationships = array();
-
-    /* Relationship: Commerce Customer Profile: Owner */
-    $relationships['uid'] = array(
-      'id' => 'uid',
-      'table' => 'commerce_customer_profile',
-      'field' => 'uid',
-    );
-
-    $handler->display->display_options['relationships'] = $relationships;
-  }
-  
-  /* Filter criterion */
-  if ($entity_type == 'node') {
-    $handler->display->display_options['filters']['type']['id'] = 'type';
-    $handler->display->display_options['filters']['type']['table'] = 'node';
-    $handler->display->display_options['filters']['type']['field'] = 'type';
-    $handler->display->display_options['filters']['type']['value'] = array(
-      $entity_id => $entity_id,
-    );
-  }
-  elseif ($entity_type == 'taxonomy_term') {
-    $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
-    $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
-    $handler->display->display_options['filters']['machine_name']['field'] = 'machine_name';
-    $handler->display->display_options['filters']['machine_name']['value'] = array(
-      $entity_id => $entity_id,
-    );
-  }
-  elseif ($entity_type == 'commerce_product') {
-    $handler->display->display_options['filters']['type']['id'] = 'type';
-    $handler->display->display_options['filters']['type']['table'] = 'commerce_product';
-    $handler->display->display_options['filters']['type']['field'] = 'type';
-    $handler->display->display_options['filters']['type']['value'] = array(
-      $entity_id => $entity_id,
-    );
-  }
-  elseif ($entity_type == 'commerce_customer_profile') {
-    $handler->display->display_options['filters']['type']['id'] = 'type';
-    $handler->display->display_options['filters']['type']['table'] = 'commerce_customer_profile';
-    $handler->display->display_options['filters']['type']['field'] = 'type';
-    $handler->display->display_options['filters']['type']['value'] = array(
-      $entity_id => $entity_id,
-    );
-  }
-  
-  //** GUID Field **//
-  if ($entity_type == 'node') {
-    $handler->display->display_options['fields']['guid']['id'] = 'guid';
-    $handler->display->display_options['fields']['guid']['table'] = 'node';
-    $handler->display->display_options['fields']['guid']['field'] = 'nid';
-    $handler->display->display_options['fields']['guid']['label'] = 'guid';
-  }
-  elseif ($entity_type == 'taxonomy_term') {
-    $handler->display->display_options['fields']['guid']['id'] = 'guid';
-    $handler->display->display_options['fields']['guid']['table'] = 'taxonomy_term_data';
-    $handler->display->display_options['fields']['guid']['field'] = 'tid';
-    $handler->display->display_options['fields']['guid']['label'] = 'guid';
-  }
-  elseif ($entity_type == 'user') {
-    $handler->display->display_options['fields']['guid']['id'] = 'guid';
-    $handler->display->display_options['fields']['guid']['table'] = 'users';
-    $handler->display->display_options['fields']['guid']['field'] = 'uid';
-    $handler->display->display_options['fields']['guid']['label'] = 'guid';
-  }
-  elseif ($entity_type == 'commerce_product') {
-    $handler->display->display_options['fields']['guid']['id'] = 'guid';
-    $handler->display->display_options['fields']['guid']['table'] = 'commerce_product';
-    $handler->display->display_options['fields']['guid']['field'] = 'sku';
-    $handler->display->display_options['fields']['guid']['label'] = 'guid';
-  }
-  elseif ($entity_type == 'commerce_customer_profile') {
-    $handler->display->display_options['fields']['guid']['id'] = 'guid';
-    $handler->display->display_options['fields']['guid']['table'] = 'commerce_customer_profile';
-    $handler->display->display_options['fields']['guid']['field'] = 'profile_id';
-    $handler->display->display_options['fields']['guid']['label'] = 'guid';
-  }
-  
-  if ($entity_type == 'node') {
-    if (module_exists('menu_node_views')) {
-      /* Relationship: Menu: Parent menu link id */
-      $handler->display->display_options['relationships']['plid']['id'] = 'plid';
-      $handler->display->display_options['relationships']['plid']['table'] = 'menu_links';
-      $handler->display->display_options['relationships']['plid']['field'] = 'plid';
-
-      /* Field: Menu: Menu name */
-      $handler->display->display_options['fields']['menu_name']['id'] = 'menu_name';
-      $handler->display->display_options['fields']['menu_name']['table'] = 'menu_links';
-      $handler->display->display_options['fields']['menu_name']['field'] = 'menu_name';
-      $handler->display->display_options['fields']['menu_name']['label'] = 'menu_name';
-      /* Field: Menu: Link title */
-      $handler->display->display_options['fields']['link_title_1']['id'] = 'link_title_1';
-      $handler->display->display_options['fields']['link_title_1']['table'] = 'menu_links';
-      $handler->display->display_options['fields']['link_title_1']['field'] = 'link_title';
-      $handler->display->display_options['fields']['link_title_1']['relationship'] = 'plid';
-      $handler->display->display_options['fields']['link_title_1']['label'] = 'menu_parent_item';
-      $handler->display->display_options['fields']['link_title_1']['link_to_item'] = 0;
-      
-      /* Sort criterion: Menu: Depth */
-      $handler->display->display_options['sorts']['depth']['id'] = 'depth';
-      $handler->display->display_options['sorts']['depth']['table'] = 'menu_links';
-      $handler->display->display_options['sorts']['depth']['field'] = 'depth';
-      /* Sort criterion: Menu: Weight */
-      $handler->display->display_options['sorts']['weight']['id'] = 'weight';
-      $handler->display->display_options['sorts']['weight']['table'] = 'menu_links';
-      $handler->display->display_options['sorts']['weight']['field'] = 'weight';
-    }
-  }
-  
-  //** Field Mappers **//
-  foreach ($entity_field_mappers as $key => $field_mapper) {
-    $mapper = array();
-    
-    // Kill reference fields
-    if ($key == 'commerce_customer_address') {
-      break;
-    }
-    
-    
-    // Fields
-    if (isset($field_mapper['field']) && $field_mapper['field'] === TRUE) {
-      $mapper['id'] = $key;
-      $mapper['table'] = 'field_data_' . $key;
-      $mapper['field'] = $key;
-      $mapper['label'] = $key;
-      
-      $mapper = mirrors_views_set_field_formatter($mapper, $field_mapper['type']);
-      
-    }
-    // Properties
-    else {
-      // Filter out 'relations' fields
-      $arr = explode("_", $key, 2);
-      $first = $arr[0];
-      
-      switch ($first) {
-        case 'user':
-        case 'menu':
-          $mapper = FALSE;
-          break;
-        default:
-          $mapper['id'] = $key;
-          $mapper['table'] = $base_table;
-          $mapper['field'] = $key;
-          $mapper['label'] = $key;
-          if (isset($field_mapper['type'])) {
-            $mapper = mirrors_views_set_field_formatter($mapper, $field_mapper['type']);
-            $mapper['type'] = $field_mapper['type'];
-          };
-          if (isset($field_mapper['link_to_user'])) {
-            $mapper['link_to_user'] = $field_mapper['link_to_user'];
-          };
-          if (isset($field_mapper['link_to_node'])) {
-            $mapper['link_to_node'] = $field_mapper['link_to_node'];
-          };
-          if (isset($field_mapper['relationship'])) {
-            $mapper['relationship'] = $field_mapper['relationship'];
-          };
-          if (isset($field_mapper['table'])) {
-            $mapper['table'] = $field_mapper['table'];
-          };
-      }
-    }
-    
-    // Extras for Taxonomy Hierarchy
-    if ($base_table == 'taxonomy_term_data') {
-      if ($key == 'parent') {
-        $mapper['field'] = 'name';
-        $mapper['relationship'] = 'parent';
-      }
-      elseif ($key == 'parentguid') {
-        $mapper['field'] = 'tid';
-        $mapper['relationship'] = 'parent';
-        $mapper['separator'] = '';
-        $mapper['empty_zero'] = TRUE;
-      }
-    }
-    
-    if ($mapper !== FALSE) {
-      $handler->display->display_options['fields'][$key] = $mapper;
-    }
-  }
-
-  /* Display: Data export */
-  $handler = $view->new_display('views_data_export', 'Data export', 'views_data_export_1');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-  $handler->display->display_options['style_options']['provide_file'] = 0;
-  $handler->display->display_options['style_options']['parent_sort'] = 0;
-  $handler->display->display_options['style_options']['separator'] = ';';
-  $handler->display->display_options['style_options']['quote'] = 1;
-  $handler->display->display_options['style_options']['trim'] = 1;
-  $handler->display->display_options['style_options']['replace_newlines'] = 1;
-  $handler->display->display_options['style_options']['newline_replacement'] = '<br/>';
-  $handler->display->display_options['style_options']['header'] = 1;
-  $handler->display->display_options['style_options']['keep_html'] = 1;
-  $handler->display->display_options['style_options']['encoding'] = 'UTF-8';
-  $handler->display->display_options['path'] = 'views_data_export/' . $entity_type . '/' . $importer_name . '.csv';
-  $handler->display->display_options['use_batch'] = 'batch';
-
   return $view;
 }
 
+/**
+ * Returns field mapping.
+ */
+function mirrors_views_mapping_create($mirrors_entity, $base_table) {
+  $fields = array();
 
-function mirrors_views_set_field_formatter($mapper, $field_type) {
-  $mapper['type'] = $field_type;
-  
-  // Check if we are dealing with a list
-  if(substr($field_type, 0, 4) == 'list') {
-    $mapper['separator'] = '/';
-    
-    // Extract field_type "list<$field_type>"
-    $length = strlen($field_type);
-    $field_type = substr($field_type, 5, $length - 6);
-  }
-  
-  // Per field parsing
-  if ($field_type == 'boolean') {
-    $mapper['type'] = 'boolean_yes_no';
-    $mapper['settings'] = array(
-      'format' => 'boolean',
-      'custom_on' => '',
-      'custom_off' => '',
-      'reverse' => 0,
+  // First Properties
+  foreach ($mirrors_entity['properties'] as $key => $field) {
+    $fields[$key] = array(
+      'id' => $key,
+      'table' => $base_table,
+      'field' => $key,
+      'label' => $key,
     );
+    // Extra Views Settings
+    if (isset($field['views'])) {
+      foreach ((array)$field['views'] as $new => $value) {
+        $fields[$key][$new] = $value;
+      }
+    }
   }
-  elseif ($field_type == 'date') {
-    $mapper['date_format'] = 'custom';
-    $mapper['custom_date_format'] = 'U';
-  }
-  elseif ($field_type == 'list') {
-  }
-  elseif ($field_type == 'decimal') {
-    $mapper['settings'] = array(
-      'thousand_separator' => '',
-      'decimal_separator' => '.',
-      'scale' => '2',
-      'prefix_suffix' => 1,
+
+
+  // Second Fields
+  foreach ($mirrors_entity['fields'] as $key => $field) {
+    $fields[$key] = array(
+      'id' => $key,
+      'table' => 'field_data_' . $key,
+      'field' => $key,
+      'label' => $key,
     );
+    // Extra Views Settings
+    if (isset($field['views'])) {
+      foreach ((array)$field['views'] as $new => $value) {
+        $fields[$key][$new] = $value;
+      }
+    }
   }
-  elseif ($field_type == 'integer') {
-    $mapper['type'] = 'number_unformatted';
+
+  return $fields;
+}
+
+/**
+ * Returns filters.
+ */
+function mirrors_views_filters_create($mirrors_entity, $entity_id) {
+  $filters = array();
+
+  // Extra Views Settings
+  if (isset($mirrors_entity['views']['filters'])) {
+    foreach ((array)$mirrors_entity['views']['filters'] as $key => $filter) {
+      $filters[$key]['id'] = $key;
+      $filters[$key]['table'] = $filter;
+      $filters[$key]['field'] = $key;
+      $filters[$key]['value'] = array(
+        $entity_id => $entity_id,
+      );
+    }
   }
-  elseif ($field_type == 'text_formatted') {
+
+  return $filters;
+}
+
+/**
+ * Returns relationships.
+ */
+function mirrors_views_relationships_create($mirrors_entity) {
+  $relationships = array();
+
+  // Extra Views Settings
+  if (isset($mirrors_entity['views']['relationships'])) {
+    foreach ((array)$mirrors_entity['views']['relationships'] as $key => $relation) {
+      $relationships[$key]['id'] = $key;
+      $relationships[$key]['table'] = $relation;
+      $relationships[$key]['field'] = $key;
+    }
   }
-  elseif ($field_type == 'text') {
+
+  return $relationships;
+}
+
+/**
+ * Returns sorts.
+ */
+function mirrors_views_sorts_create($mirrors_entity) {
+  $sorts = array();
+
+  // Extra Views Settings
+  if (isset($mirrors_entity['views']['sorts'])) {
+    foreach ((array)$mirrors_entity['views']['sorts'] as $key => $relation) {
+      $sorts[$key]['id'] = $key;
+      $sorts[$key]['table'] = $relation;
+      $sorts[$key]['field'] = $key;
+    }
   }
-  elseif ($field_type == 'taxonomy_term') {
-    $mapper['type'] = 'taxonomy_term_reference_plain';
-  }
-  elseif ($field_type == 'commerce_product') {
-    $mapper['type'] = 'commerce_product_reference_sku_plain';
-    $mapper['settings'] = array(
-      'view_mode' => 'full',
-      'page' => 1,
-    );
-  }
-  elseif ($field_type == 'commerce_price') {
-    $mapper['type'] = 'commerce_price_raw_amount';
-  }
-  elseif ($field_type == 'addressfield') {
-    $mapper['id'] = 'commerce_customer_address_' . $mapper['id'];
-    $mapper['table'] = 'field_data_commerce_customer_address';
-    $mapper['field'] = 'commerce_customer_address_' . $mapper['field'];
-  }
-  else {
-    dvm('unsupported field_type: ' . $field_type . ' @mirror.views.inc');
-    dpm($mapper);
-  }
-    
-  // @2do: add hook to add more field_mappers
-  return $mapper;
+
+  return $sorts;
 }

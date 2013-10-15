@@ -10,7 +10,7 @@
 function mirrors_example_taxonomy_default_vocabularies() {
   return array(
     'no_fields' => array(
-      'name' => 'No Fields',
+      'name' => 'Taxonomy no Fields',
       'machine_name' => 'no_fields',
       'description' => '',
       'hierarchy' => '1',
@@ -18,7 +18,7 @@ function mirrors_example_taxonomy_default_vocabularies() {
       'weight' => '0',
     ),
     'with_fields' => array(
-      'name' => 'With Fields',
+      'name' => 'Taxonomy with Fields',
       'machine_name' => 'with_fields',
       'description' => '',
       'hierarchy' => '1',

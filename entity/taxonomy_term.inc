@@ -6,8 +6,8 @@
  */
 
 /**
-  * Called directly from mirrors.module
-  * User hook_entity_type_alter() from other modules
+ * Called directly from mirrors.module
+ * User hook_entity_type_alter() from other modules
  */
 function mirrors_entity_types_taxonomy_term(&$entity_types) {
   $entity_types['taxonomy_term'] = array(
@@ -28,9 +28,6 @@ function mirrors_entity_types_taxonomy_term(&$entity_types) {
     ),
     'properties' => array(
       // TermID not supported by Feeds
-      //'tid' => array(
-      //  'type' => 'integer',
-      //),
       'name' => array(
         'type' => 'text',
         'unique' => TRUE,

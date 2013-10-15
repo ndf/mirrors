@@ -50,7 +50,7 @@ function mirrors_views_exporter_create($importer_name, $entity_type, $entity_id,
 
   /* Display Options */
   $display_options = array();
-  
+
   /* Filters */
   $display_options['filters'] = mirrors_views_filters_create($mirrors_entity, $entity_id);
 
@@ -63,7 +63,7 @@ function mirrors_views_exporter_create($importer_name, $entity_type, $entity_id,
 
   $view = mirrors_views_default_template($importer_name, $entity_type, $base_table, $display_options);
 
-  
+
   return $view;
 }
 

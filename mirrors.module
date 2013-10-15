@@ -5,21 +5,14 @@
  * Creates an Export View and an Import Feed for your entities
  */
 
-/* There is a 'base' configuration. This one contains things like 'CSV', ';', etc.
-Per entity-bundle we create a feed importer and a views-exporter.
-We use fields and properties attached to an entity-bundle.
-
-Baseline:
- 1. a function that returns fields and properties for an entity-bundle, or all entity-bundles
- 2. a function that creates a feed-configuration (specificly mapping) from a bundle-field-configuration
- 3. a function that creates a view-configuration from a bundle-field-configuration
-
- 4. a function that calls (1) an 'renders' the views and feeds
- 5. a config-ui (on a central place) that calls 4 (default all enabled)
- 6. a splitted config-ui (on entity settings page) that calls 4
-
- 7. entity 'crud' listeners
- 8. call 4 on install
+/**
+ * Per entity-bundle a feed importer and a views-exporter will be created.
+ *
+ * Logic:
+ * 1. Function that returns fields and properties for supported bundles.
+ * 2. Function that creates feed-configurations.
+ * 3. Function that creates view-configurations.
+ *
  */
 
 
@@ -87,7 +80,7 @@ function mirrors_property_types() {
 }
 
 /**
- * Returns a simple array with active bundles per entity_type.
+ * Returns a condensed array with active bundles per entity_type.
  */
 function _mirrors_supported_bundles() {
   $mirrors_bundles = array();
@@ -97,7 +90,9 @@ function _mirrors_supported_bundles() {
   // $mirrors_entity_types contains only supported entity types
   $mirrors_entity_types = mirrors_entity_types();
 
+  // Loop through all entity types (node, user, etc.)
   foreach ($bundles as $entity_type => $bundle) {
+    // If entity type is supported, loop through all bundles (article, page, etc.)
     if (array_key_exists($entity_type, $mirrors_entity_types)) {
       foreach ($bundle as $entity_id => $entity) {
         $mirrors_bundles[$entity_type][$entity_id] = $mirrors_entity_types[$entity_type];
@@ -117,11 +112,13 @@ function _mirrors_supported_bundles() {
 function _mirrors_add_property_settings($bundles) {
   $mirrors_property_types = mirrors_property_types();
 
+  // Loop through all entity types (node, user, etc.)
   foreach ($bundles as $entity_type => &$bundle) {
+    // Loop through all bundles (article, page, etc.)
     foreach ($bundle as $entity_id => &$entity) {
+      // Loop through all properties (nid, status, etc.)
       foreach ($entity['properties'] as &$property) {
-        // @2do: formatters for properties can be different then field formatters
-        // Maybe make a seperate folder with property.inc files
+        // If supported property type, add to mirrors condensed array.
         if (array_key_exists($property['type'], $mirrors_property_types)) {
           $property =  array_merge_recursive(
             $property,
@@ -143,20 +140,20 @@ function _mirrors_add_fields($bundles) {
 
   $entities = entity_get_property_info();
 
-  // loop all, test for fields, if yes add field mapping
+  // Loop through all entity types (node, user, etc.)
   foreach ($bundles as $entity_type => &$bundle) {
+    // Loop through all bundles (article, page, etc.)
     foreach ($bundle as $entity_id => &$entity) {
 
-      // FIELDS
       $mirrors_fields = array();
-      // Test if bundle contains fields
+      // Loop through all fields
       if (isset( $entities[$entity_type]['bundles'][$entity_id]['properties'] )) {
         $fields = $entities[$entity_type]['bundles'][$entity_id]['properties'];
 
         foreach ($fields as $key => $field) {
           $field_type = mirrors_field_type_filter_list($field['type']);
 
-          // Test if field_type is supported by mirrors
+          // If supported field type, add to mirrors condensed array.
           if (array_key_exists($field_type, $mirrors_field_types)) {
             $field = $mirrors_field_types[$field_type];
             $field['type'] = $field_type;

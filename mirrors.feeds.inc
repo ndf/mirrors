@@ -40,11 +40,7 @@ function mirrors_feeds_importer_default() {
 }
 
 /**
- * $importer_name
- * $entity_type
- * $processor
- * $entity_id
- *
+ * Creates a Feed object (the importer).
  */
 function mirrors_feeds_importer_create($importer_name, $entity_type, $entity_id, $mirrors_entity) {
   $processor = $mirrors_entity['feeds']['processor'];

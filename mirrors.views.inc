@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Feeds Related
+ * Views Related
  */
 
 module_load_include('inc', 'mirrors', 'mirrors.views.template');
@@ -39,11 +39,7 @@ function mirrors_views_default_views() {
 
 
 /**
- * $importer_name
- * $entity_type
- * $mirrors_entity
- * $entity_id
- *
+ * Creates a View object (the exporter).
  */
 function mirrors_views_exporter_create($importer_name, $entity_type, $entity_id, $mirrors_entity) {
   $base_table = $mirrors_entity['views']['base_table'];

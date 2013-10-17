@@ -79,7 +79,7 @@ function mirrors_feeds_mapping_create($mirrors_entity) {
 
     // Now enable specific feeds overrides.
     if (isset($property['feeds'])) {
-      foreach ((array)$property['feeds'] as $key => $value) {
+      foreach ((array) $property['feeds'] as $key => $value) {
         $mapper[$key] = $value;
       }
     }

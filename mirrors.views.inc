@@ -78,7 +78,7 @@ function mirrors_views_mapping_create($mirrors_entity, $base_table) {
     );
     // Extra Views Settings.
     if (isset($field['views'])) {
-      foreach ((array)$field['views'] as $new => $value) {
+      foreach ((array) $field['views'] as $new => $value) {
         $fields[$key][$new] = $value;
       }
     }
@@ -94,7 +94,7 @@ function mirrors_views_mapping_create($mirrors_entity, $base_table) {
     );
     // Extra Views Settings.
     if (isset($field['views'])) {
-      foreach ((array)$field['views'] as $new => $value) {
+      foreach ((array) $field['views'] as $new => $value) {
         $fields[$key][$new] = $value;
       }
     }
@@ -111,7 +111,7 @@ function mirrors_views_filters_create($mirrors_entity, $entity_id) {
 
   // Extra Views Settings.
   if (isset($mirrors_entity['views']['filters'])) {
-    foreach ((array)$mirrors_entity['views']['filters'] as $key => $filter) {
+    foreach ((array) $mirrors_entity['views']['filters'] as $key => $filter) {
       $filters[$key]['id'] = $key;
       $filters[$key]['table'] = $filter;
       $filters[$key]['field'] = $key;
@@ -132,7 +132,7 @@ function mirrors_views_relationships_create($mirrors_entity) {
 
   // Extra Views Settings.
   if (isset($mirrors_entity['views']['relationships'])) {
-    foreach ((array)$mirrors_entity['views']['relationships'] as $key => $relation) {
+    foreach ((array) $mirrors_entity['views']['relationships'] as $key => $relation) {
       $relationships[$key]['id'] = $key;
       $relationships[$key]['table'] = $relation;
       $relationships[$key]['field'] = $key;
@@ -150,7 +150,7 @@ function mirrors_views_sorts_create($mirrors_entity) {
 
   // Extra Views Settings.
   if (isset($mirrors_entity['views']['sorts'])) {
-    foreach ((array)$mirrors_entity['views']['sorts'] as $key => $relation) {
+    foreach ((array) $mirrors_entity['views']['sorts'] as $key => $relation) {
       $sorts[$key]['id'] = $key;
       $sorts[$key]['table'] = $relation;
       $sorts[$key]['field'] = $key;

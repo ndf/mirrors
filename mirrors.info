@@ -6,4 +6,3 @@ dependencies[] = views
 dependencies[] = views_data_export (>7.x-3.0-beta6+42)
 dependencies[] = feeds
 dependencies[] = boolean_formatter
-dependencies[] = entity

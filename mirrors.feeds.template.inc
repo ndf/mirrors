@@ -6,15 +6,24 @@
  */
 
 /**
- * $importer_name
- * $entity_type
- * $processor
- * $entity_id
+ * Returns Feeds Importer object.
+ *
+ * @param string $name
+ *   Name of importer.
+ *
+ * @param string $entity_type
+ *   Entity type (node, user, etc.). Used for importer description only.
+ *
+ * @param int $entity_id
+ *   Entity_id or bundle_id (article, page, etc.).
+ *
+ * @param string $processor 
+ *   Processor (FeedsNodeProcessor, etc.).
  */
-function mirrors_feeds_default_template($importer_name, $entity_type, $entity_id, $processor) {
+function mirrors_feeds_default_template($name, $entity_type, $entity_id, $processor) {
 
   $feeds_default_config = array(
-    'name' => $importer_name,
+    'name' => $name,
     'description' => 'Import ' . $entity_type . 's from CSV file.',
     'fetcher' => array(
       'plugin_key' => 'FeedsFileFetcher',

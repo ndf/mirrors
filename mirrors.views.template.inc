@@ -6,16 +6,28 @@
  */
 
 /**
- * Returns default view template.
+ * Returns View Exporter object.
+ *
+ * @param string $name
+ *   Name of exporter.
+ *
+ * @param string $entity_type
+ *   Entity type (node, user, etc.). Used for description and path.
+ *
+ * @param string $base_table
+ *   Base_table (node, users, etc.).
+ *
+ * @param array $display_options 
+ *   Contains filters, relationsships, sorts and fields.
  */
-function mirrors_views_default_template($importer_name, $entity_type, $base_table, $display_options) {
+function mirrors_views_default_template($name, $entity_type, $base_table, $display_options) {
   /* Build up the view */
   $view = new view();
-  $view->name = $importer_name;
+  $view->name = $name;
   $view->description = 'Export ' . $entity_type . 's to CSV file.';
   $view->tag = 'Mirrors';
   $view->base_table = $base_table;
-  $view->human_name = $importer_name;
+  $view->human_name = $name;
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -68,7 +80,7 @@ function mirrors_views_default_template($importer_name, $entity_type, $base_tabl
   $handler->display->display_options['style_options']['header'] = 1;
   $handler->display->display_options['style_options']['keep_html'] = 1;
   $handler->display->display_options['style_options']['encoding'] = 'UTF-8';
-  $handler->display->display_options['path'] = 'views_data_export/' . $entity_type . '/' . $importer_name . '.csv';
+  $handler->display->display_options['path'] = 'views_data_export/' . $entity_type . '/' . $name . '.csv';
   $handler->display->display_options['use_batch'] = 'batch';
 
   return $view;

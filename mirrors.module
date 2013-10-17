@@ -32,9 +32,10 @@ function mirrors_permission() {
 }
 
 /**
- * Returns bundle configuration for supported entity and field types
+ * Returns bundle configuration for supported entity and field types.
+ *
  * These configurations are used by mirrors_views and mirrors_feeds
- * to create exporters and importers
+ * to create exporters and importers.
  */
 function mirrors_bundles() {
   $bundles = _mirrors_supported_bundles();
@@ -91,7 +92,7 @@ function _mirrors_supported_bundles() {
 
   // Loop through all entity types (node, user, etc.).
   foreach ($bundles as $entity_type => $bundle) {
-    // If entity type is supported, loop through all bundles (article, page, etc.).
+    // If supported entity type, loop through all bundles (article, page, etc.).
     if (array_key_exists($entity_type, $mirrors_entity_types)) {
       foreach ($bundle as $entity_id => $entity) {
         $mirrors_bundles[$entity_type][$entity_id] = $mirrors_entity_types[$entity_type];

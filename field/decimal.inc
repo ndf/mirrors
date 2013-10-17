@@ -8,8 +8,10 @@
  */
 
 /**
-  * Called directly from mirrors.module
-  * User hook_field_types_alter() from other modules
+ * Field Declaration: decimal.
+ *
+ * Called directly from mirrors.module.
+ * Use hook_field_types_alter() from other modules.
  */
 function mirrors_field_types_decimal(&$field_types) {
   $field_types['decimal'] = array(

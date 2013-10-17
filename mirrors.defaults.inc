@@ -11,7 +11,7 @@
 function mirrors_entity_types_defaults() {
   $entity_types = array();
 
-  // Core entity_types are supported by default
+  // Core entity_types are supported by default.
   $core_entity_types = array(
     'node',
     'taxonomy_term',
@@ -19,7 +19,7 @@ function mirrors_entity_types_defaults() {
     'not_working',
   );
 
-  // We do this loop, so our module files are easier to read
+  // We do this loop, so our module files are easier to read.
   foreach ($core_entity_types as $type) {
     module_load_include('inc', 'mirrors', 'entity/' . $type);
 
@@ -38,7 +38,7 @@ function mirrors_entity_types_defaults() {
 function mirrors_field_types_defaults() {
   $field_types = array();
 
-  // Core field_types are supported by default
+  // Core field_types are supported by default.
   $core_field_types = array(
     'boolean',
     'date',
@@ -49,7 +49,7 @@ function mirrors_field_types_defaults() {
     'text_formatted',
   );
 
-  // We do this loop, so our module files are easier to read
+  // We do this loop, so our module files are easier to read.
   foreach ($core_field_types as $type) {
     module_load_include('inc', 'mirrors', 'field/' . $type);
 
@@ -68,7 +68,7 @@ function mirrors_field_types_defaults() {
 function mirrors_property_types_defaults() {
   $property_types = array();
 
-  // Core field_types are supported by default
+  // Core field_types are supported by default.
   $core_property_types = array(
     'boolean',
     'date',
@@ -76,7 +76,7 @@ function mirrors_property_types_defaults() {
     'text',
   );
 
-  // We do this loop, so our module files are easier to read
+  // We do this loop, so our module files are easier to read.
   foreach ($core_property_types as $type) {
     module_load_include('inc', 'mirrors', 'property/' . $type);
 

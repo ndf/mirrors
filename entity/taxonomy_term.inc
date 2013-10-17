@@ -6,8 +6,10 @@
  */
 
 /**
- * Called directly from mirrors.module
- * User hook_entity_type_alter() from other modules
+ * Entity Declaration: taxonomy_term.
+ *
+ * Called directly from mirrors.module.
+ * Use hook_entity_types_alter() from other modules.
  */
 function mirrors_entity_types_taxonomy_term(&$entity_types) {
   $entity_types['taxonomy_term'] = array(
@@ -27,7 +29,7 @@ function mirrors_entity_types_taxonomy_term(&$entity_types) {
       'processor' => 'FeedsTermProcessor',
     ),
     'properties' => array(
-      // TermID not supported by Feeds
+      // TermID not supported by Feeds.
       'name' => array(
         'type' => 'text',
         'unique' => TRUE,
@@ -37,7 +39,7 @@ function mirrors_entity_types_taxonomy_term(&$entity_types) {
         'views' => array(
           'field' => 'name',
           'relationship' => 'parent',
-        )
+        ),
       ),
       'weight' => array(
         'type' => 'integer',

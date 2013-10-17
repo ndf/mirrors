@@ -12,7 +12,6 @@
  * 1. Function that returns fields and properties for supported bundles.
  * 2. Function that creates feed-configurations.
  * 3. Function that creates view-configurations.
- *
  */
 
 
@@ -85,21 +84,21 @@ function mirrors_property_types() {
 function _mirrors_supported_bundles() {
   $mirrors_bundles = array();
 
-  // $bundles contains all bundles in the drupal instance
+  // $bundles contains all bundles in the drupal instance.
   $bundles = field_info_bundles();
-  // $mirrors_entity_types contains only supported entity types
+  // $mirrors_entity_types contains only supported entity types.
   $mirrors_entity_types = mirrors_entity_types();
 
-  // Loop through all entity types (node, user, etc.)
+  // Loop through all entity types (node, user, etc.).
   foreach ($bundles as $entity_type => $bundle) {
-    // If entity type is supported, loop through all bundles (article, page, etc.)
+    // If entity type is supported, loop through all bundles (article, page, etc.).
     if (array_key_exists($entity_type, $mirrors_entity_types)) {
       foreach ($bundle as $entity_id => $entity) {
         $mirrors_bundles[$entity_type][$entity_id] = $mirrors_entity_types[$entity_type];
       }
     }
     else {
-      // Unsupported entity_type
+      // Unsupported entity_type.
     }
   }
 
@@ -112,15 +111,15 @@ function _mirrors_supported_bundles() {
 function _mirrors_add_property_settings($bundles) {
   $mirrors_property_types = mirrors_property_types();
 
-  // Loop through all entity types (node, user, etc.)
-  foreach ($bundles as $entity_type => &$bundle) {
-    // Loop through all bundles (article, page, etc.)
-    foreach ($bundle as $entity_id => &$entity) {
-      // Loop through all properties (nid, status, etc.)
+  // Loop through all entity types (node, user, etc.).
+  foreach ($bundles as &$bundle) {
+    // Loop through all bundles (article, page, etc.).
+    foreach ($bundle as &$entity) {
+      // Loop through all properties (nid, status, etc.).
       foreach ($entity['properties'] as &$property) {
         // If supported property type, add to mirrors condensed array.
         if (array_key_exists($property['type'], $mirrors_property_types)) {
-          $property =  array_merge_recursive(
+          $property = array_merge_recursive(
             $property,
             $mirrors_property_types[$property['type']]
           );
@@ -140,14 +139,14 @@ function _mirrors_add_fields($bundles) {
 
   $entities = entity_get_property_info();
 
-  // Loop through all entity types (node, user, etc.)
+  // Loop through all entity types (node, user, etc.).
   foreach ($bundles as $entity_type => &$bundle) {
-    // Loop through all bundles (article, page, etc.)
+    // Loop through all bundles (article, page, etc.).
     foreach ($bundle as $entity_id => &$entity) {
 
       $mirrors_fields = array();
-      // Loop through all fields
-      if (isset( $entities[$entity_type]['bundles'][$entity_id]['properties'] )) {
+      // Loop through all fields.
+      if (isset($entities[$entity_type]['bundles'][$entity_id]['properties'])) {
         $fields = $entities[$entity_type]['bundles'][$entity_id]['properties'];
 
         foreach ($fields as $key => $field) {
@@ -160,7 +159,7 @@ function _mirrors_add_fields($bundles) {
             $mirrors_fields[$key] = $field;
           }
           else {
-            // Unsupported field type
+            // Unsupported field type.
           }
         }
       }
@@ -175,11 +174,10 @@ function _mirrors_add_fields($bundles) {
  * Helper function for lists.
  */
 function mirrors_field_type_filter_list($field_type) {
-  // Check if we are dealing with a list
+  // Check if we are dealing with a list.
   if (substr($field_type, 0, 4) == 'list') {
-    $mapper['separator'] = '/';
 
-    // Extract field_type "list<$field_type>"
+    // Extract field_type "list<$field_type>".
     $length = strlen($field_type);
     $field_type = substr($field_type, 5, $length - 6);
   }

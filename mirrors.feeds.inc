@@ -65,7 +65,7 @@ function mirrors_feeds_importer_create($importer_name, $entity_type, $entity_id,
 function mirrors_feeds_mapping_create($mirrors_entity) {
   $mapping = array();
 
-  // We do properties and fields in one shot
+  // We do properties and fields in one shot.
   $mappers = array_merge(
     $mirrors_entity['properties'],
     $mirrors_entity['fields']
@@ -77,14 +77,14 @@ function mirrors_feeds_mapping_create($mirrors_entity) {
     $mapper['source'] = $key;
     $mapper['target'] = $key;
 
-    // Now enable specific feeds overrides
+    // Now enable specific feeds overrides.
     if (isset($property['feeds'])) {
       foreach ((array)$property['feeds'] as $key => $value) {
         $mapper[$key] = $value;
       }
     }
 
-    // Set GUID field
+    // Set GUID field.
     if (isset($property['unique']) && $property['unique'] == 1) {
       $mapper['unique'] = $property['unique'];
     }

@@ -59,7 +59,6 @@ function mirrors_views_exporter_create($importer_name, $entity_type, $entity_id,
 
   $view = mirrors_views_default_template($importer_name, $entity_type, $base_table, $display_options);
 
-
   return $view;
 }
 
@@ -69,7 +68,7 @@ function mirrors_views_exporter_create($importer_name, $entity_type, $entity_id,
 function mirrors_views_mapping_create($mirrors_entity, $base_table) {
   $fields = array();
 
-  // First Properties
+  // First Properties.
   foreach ($mirrors_entity['properties'] as $key => $field) {
     $fields[$key] = array(
       'id' => $key,
@@ -77,7 +76,7 @@ function mirrors_views_mapping_create($mirrors_entity, $base_table) {
       'field' => $key,
       'label' => $key,
     );
-    // Extra Views Settings
+    // Extra Views Settings.
     if (isset($field['views'])) {
       foreach ((array)$field['views'] as $new => $value) {
         $fields[$key][$new] = $value;
@@ -85,8 +84,7 @@ function mirrors_views_mapping_create($mirrors_entity, $base_table) {
     }
   }
 
-
-  // Second Fields
+  // Second Fields.
   foreach ($mirrors_entity['fields'] as $key => $field) {
     $fields[$key] = array(
       'id' => $key,
@@ -94,7 +92,7 @@ function mirrors_views_mapping_create($mirrors_entity, $base_table) {
       'field' => $key,
       'label' => $key,
     );
-    // Extra Views Settings
+    // Extra Views Settings.
     if (isset($field['views'])) {
       foreach ((array)$field['views'] as $new => $value) {
         $fields[$key][$new] = $value;
@@ -111,7 +109,7 @@ function mirrors_views_mapping_create($mirrors_entity, $base_table) {
 function mirrors_views_filters_create($mirrors_entity, $entity_id) {
   $filters = array();
 
-  // Extra Views Settings
+  // Extra Views Settings.
   if (isset($mirrors_entity['views']['filters'])) {
     foreach ((array)$mirrors_entity['views']['filters'] as $key => $filter) {
       $filters[$key]['id'] = $key;
@@ -132,7 +130,7 @@ function mirrors_views_filters_create($mirrors_entity, $entity_id) {
 function mirrors_views_relationships_create($mirrors_entity) {
   $relationships = array();
 
-  // Extra Views Settings
+  // Extra Views Settings.
   if (isset($mirrors_entity['views']['relationships'])) {
     foreach ((array)$mirrors_entity['views']['relationships'] as $key => $relation) {
       $relationships[$key]['id'] = $key;
@@ -150,7 +148,7 @@ function mirrors_views_relationships_create($mirrors_entity) {
 function mirrors_views_sorts_create($mirrors_entity) {
   $sorts = array();
 
-  // Extra Views Settings
+  // Extra Views Settings.
   if (isset($mirrors_entity['views']['sorts'])) {
     foreach ((array)$mirrors_entity['views']['sorts'] as $key => $relation) {
       $sorts[$key]['id'] = $key;

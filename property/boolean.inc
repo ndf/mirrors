@@ -6,8 +6,10 @@
  */
 
 /**
-  * Called directly from mirrors.module
-  * User hook_property_types_alter() from other modules
+ * Property Declaration: boolean.
+ *
+ * Called directly from mirrors.module.
+ * Use hook_property_types_alter() from other modules.
  */
 function mirrors_property_types_boolean(&$property_types) {
   $property_types['boolean'] = array(

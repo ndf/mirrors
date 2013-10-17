@@ -1401,7 +1401,7 @@ function mirrors_example_field_default_fields() {
     ),
   );
 
-  // Translatables
+  // Translatables.
   // Included for use with string extractors like potx.
   t('Boolean');
   t('Decimal');

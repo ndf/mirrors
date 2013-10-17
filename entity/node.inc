@@ -6,8 +6,10 @@
  */
 
 /**
-  * Called directly from mirrors.module
-  * User hook_entity_type_alter() from other modules
+ * Entity Declaration: node.
+ *
+ * Called directly from mirrors.module.
+ * Use hook_entity_types_alter() from other modules.
  */
 function mirrors_entity_types_node(&$entity_types) {
   $entity_types['node'] = array(

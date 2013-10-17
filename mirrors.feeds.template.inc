@@ -10,7 +10,6 @@
  * $entity_type
  * $processor
  * $entity_id
- *
  */
 function mirrors_feeds_default_template($importer_name, $entity_type, $entity_id, $processor) {
 

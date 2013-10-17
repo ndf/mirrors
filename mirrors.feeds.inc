@@ -27,11 +27,11 @@ function mirrors_feeds_importer_default() {
   foreach ($bundles as $entity_type => $bundle) {
     foreach ($bundle as $entity_id => $mirrors_entity) {
 
-      $importer_name = "mirrors_" . $entity_type . "__" . $entity_id;
-      $try = mirrors_feeds_importer_create($importer_name, $entity_type, $entity_id, $mirrors_entity);
+      $name = "mirrors_" . $entity_type . "__" . $entity_id;
+      $try = mirrors_feeds_create($name, $entity_type, $entity_id, $mirrors_entity);
 
       if ($try !== FALSE) {
-        $export[$importer_name] = $try;
+        $export[$name] = $try;
       }
     }
   }
@@ -42,9 +42,9 @@ function mirrors_feeds_importer_default() {
 /**
  * Creates a Feed object (the importer).
  */
-function mirrors_feeds_importer_create($importer_name, $entity_type, $entity_id, $mirrors_entity) {
+function mirrors_feeds_create($name, $entity_type, $entity_id, $mirrors_entity) {
   $processor = $mirrors_entity['feeds']['processor'];
-  $config = mirrors_feeds_default_template($importer_name, $entity_type, $entity_id, $processor);
+  $config = mirrors_feeds_default_template($name, $entity_type, $entity_id, $processor);
   $mapping = mirrors_feeds_mapping_create($mirrors_entity);
 
   $config['processor']['config']['mappings'] = $mapping;
@@ -52,7 +52,7 @@ function mirrors_feeds_importer_create($importer_name, $entity_type, $entity_id,
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
   $feeds_importer->api_version = 1;
-  $feeds_importer->id = $importer_name;
+  $feeds_importer->id = $name;
 
   $feeds_importer->config = $config;
 

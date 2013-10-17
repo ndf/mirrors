@@ -26,10 +26,10 @@ function mirrors_views_default_views() {
   foreach ($bundles as $entity_type => $bundle) {
     foreach ($bundle as $entity_id => $mirrors_entity) {
 
-      $importer_name = "mirrors_" . $entity_type . "__" . $entity_id;
-      $try = mirrors_views_exporter_create($importer_name, $entity_type, $entity_id, $mirrors_entity);
+      $name = "mirrors_" . $entity_type . "__" . $entity_id;
+      $try = mirrors_views_create($name, $entity_type, $entity_id, $mirrors_entity);
       if ($try !== FALSE) {
-        $export[$importer_name] = $try;
+        $export[$name] = $try;
       }
     }
   }
@@ -41,7 +41,7 @@ function mirrors_views_default_views() {
 /**
  * Creates a View object (the exporter).
  */
-function mirrors_views_exporter_create($importer_name, $entity_type, $entity_id, $mirrors_entity) {
+function mirrors_views_create($name, $entity_type, $entity_id, $mirrors_entity) {
   $base_table = $mirrors_entity['views']['base_table'];
 
   /* Display Options */
@@ -57,7 +57,7 @@ function mirrors_views_exporter_create($importer_name, $entity_type, $entity_id,
   /* Fields */
   $display_options['fields'] = mirrors_views_mapping_create($mirrors_entity, $base_table);
 
-  $view = mirrors_views_default_template($importer_name, $entity_type, $base_table, $display_options);
+  $view = mirrors_views_default_template($name, $entity_type, $base_table, $display_options);
 
   return $view;
 }

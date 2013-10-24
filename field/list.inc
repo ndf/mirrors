@@ -1,6 +1,0 @@
-<?php
-
-/**
- * @file
- * Field Declarations
- */

@@ -8,38 +8,6 @@
 module_load_include('inc', 'mirrors', 'mirrors.feeds.template');
 
 /**
- * Implements hook_ctools_plugin_api().
- */
-function mirrors_ctools_plugin_api($module = 'mirrors', $api = '') {
-  if ($module == "feeds" && $api == "feeds_importer_default") {
-    // The current API version is 1.
-    return array("version" => 1);
-  }
-}
-
-/**
- * Implements hook_feeds_importer_default().
- */
-function mirrors_feeds_importer_default() {
-  $export = array();
-
-  $bundles = mirrors_bundles();
-  foreach ($bundles as $entity_type => $bundle) {
-    foreach ($bundle as $entity_id => $mirrors_entity) {
-
-      $name = "mirrors_" . $entity_type . "__" . $entity_id;
-      $try = mirrors_feeds_create($name, $entity_type, $entity_id, $mirrors_entity);
-
-      if ($try !== FALSE) {
-        $export[$name] = $try;
-      }
-    }
-  }
-
-  return $export;
-}
-
-/**
  * Creates a Feed object (the importer).
  */
 function mirrors_feeds_create($name, $entity_type, $entity_id, $mirrors_entity) {

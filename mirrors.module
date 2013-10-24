@@ -14,11 +14,6 @@
  * 3. Function that creates view-configurations.
  */
 
-
-module_load_include('inc', 'mirrors', 'mirrors.defaults');
-module_load_include('inc', 'mirrors', 'mirrors.feeds');
-module_load_include('inc', 'mirrors', 'mirrors.views');
-
 /**
  * Implements hook_permission().
  */
@@ -32,12 +27,30 @@ function mirrors_permission() {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function mirrors_views_api() {
+  return array('api' => 3);
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function mirrors_ctools_plugin_api($module = 'mirrors', $api = '') {
+  if ($module == 'feeds' && $api == 'feeds_importer_default') {
+    return array('version' => 1);
+  }
+}
+
+/**
  * Returns bundle configuration for supported entity and field types.
  *
  * These configurations are used by mirrors_views and mirrors_feeds
  * to create exporters and importers.
  */
 function mirrors_bundles() {
+  module_load_include('inc', 'mirrors', 'mirrors.defaults');
+  
   $bundles = _mirrors_supported_bundles();
   _mirrors_add_property_settings($bundles);
   _mirrors_add_fields($bundles);
@@ -45,6 +58,52 @@ function mirrors_bundles() {
   return $bundles;
 }
 
+/**
+ * Implements hook_views_default_views().
+ */
+function mirrors_views_default_views() {
+  module_load_include('inc', 'mirrors', 'mirrors.views');
+
+  $export = array();
+  $bundles = mirrors_bundles();
+
+  foreach ($bundles as $entity_type => $bundle) {
+    foreach ($bundle as $entity_id => $mirrors_entity) {
+
+      $name = "mirrors_" . $entity_type . "__" . $entity_id;
+      $try = mirrors_views_create($name, $entity_type, $entity_id, $mirrors_entity);
+      if ($try !== FALSE) {
+        $export[$name] = $try;
+      }
+    }
+  }
+
+  return $export;
+}
+
+/**
+ * Implements hook_feeds_importer_default().
+ */
+function mirrors_feeds_importer_default() {
+  module_load_include('inc', 'mirrors', 'mirrors.feeds');
+  
+  $export = array();
+  $bundles = mirrors_bundles();
+
+  foreach ($bundles as $entity_type => $bundle) {
+    foreach ($bundle as $entity_id => $mirrors_entity) {
+
+      $name = "mirrors_" . $entity_type . "__" . $entity_id;
+      $try = mirrors_feeds_create($name, $entity_type, $entity_id, $mirrors_entity);
+
+      if ($try !== FALSE) {
+        $export[$name] = $try;
+      }
+    }
+  }
+
+  return $export;
+}
 
 /**
  * Returns supported entity_types, hookable.

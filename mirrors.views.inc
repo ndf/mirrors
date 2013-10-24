@@ -8,37 +8,6 @@
 module_load_include('inc', 'mirrors', 'mirrors.views.template');
 
 /**
- * Implements hook_views_api().
- */
-function mirrors_views_api() {
-  return array(
-    'api' => 3,
-  );
-}
-
-/**
- * Implements hook_views_default_views().
- */
-function mirrors_views_default_views() {
-  $export = array();
-
-  $bundles = mirrors_bundles();
-  foreach ($bundles as $entity_type => $bundle) {
-    foreach ($bundle as $entity_id => $mirrors_entity) {
-
-      $name = "mirrors_" . $entity_type . "__" . $entity_id;
-      $try = mirrors_views_create($name, $entity_type, $entity_id, $mirrors_entity);
-      if ($try !== FALSE) {
-        $export[$name] = $try;
-      }
-    }
-  }
-
-  return $export;
-}
-
-
-/**
  * Creates a View object (the exporter).
  */
 function mirrors_views_create($name, $entity_type, $entity_id, $mirrors_entity) {

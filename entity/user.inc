@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Entity Declarations
+ * Mirrors entity declaration: user.
  */
 
 /**

@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Entity Declarations
+ * Mirrors entity declaration: node.
+ * Language is supported.
  */
 
 /**

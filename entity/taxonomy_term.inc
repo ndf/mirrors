@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Entity Declarations
+ * Mirrors entity declaration: taxonomy_term.
+ * To sort terms hierarchical you can use 'lineage'.
  */
 
 /**

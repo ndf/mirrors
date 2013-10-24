@@ -11,8 +11,8 @@
  * Called directly from mirrors.module.
  * Use hook_mirrors_entity_types_alter() from other modules.
  */
-function mirrors_mirrors_entity_types_user(&$entity_types) {
-  $entity_types['user'] = array(
+function mirrors_mirrors_entity_types_user(&$mirrors_entity_types) {
+  $mirrors_entity_types['user'] = array(
     'views' => array(
       'base_table' => 'users',
       'filters' => array(),

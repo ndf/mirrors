@@ -11,8 +11,8 @@
  * Called directly from mirrors.module.
  * Use hook_mirrors_entity_types_alter() from other modules.
  */
-function mirrors_mirrors_entity_types_node(&$entity_types) {
-  $entity_types['node'] = array(
+function mirrors_mirrors_entity_types_node(&$mirrors_entity_types) {
+  $mirrors_entity_types['node'] = array(
     'views' => array(
       'base_table' => 'node',
       'filters' => array(
@@ -57,7 +57,7 @@ function mirrors_mirrors_entity_types_node(&$entity_types) {
     ),
   );
   if (module_exists('locale')) {
-    $entity_types['node']['properties']['language'] = array(
+    $mirrors_entity_types['node']['properties']['language'] = array(
       'type' => 'text',
     );
   }

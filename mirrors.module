@@ -24,7 +24,7 @@ module_load_include('inc', 'mirrors', 'mirrors.views');
  */
 function mirrors_permission() {
   return array(
-    'Administer mirrors' => array(
+    'administer mirrors' => array(
       'title' => t('Administer mirrors'),
       'description' => t('Use mirrors export-views.'),
     ),

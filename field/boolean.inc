@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Field Declaration: boolean.
+ * Mirrors field declaration: boolean.
  * To display boolean correctly the module 'boolean_formatter' is used.
  */
 

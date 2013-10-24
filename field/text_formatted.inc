@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Field Declaration: text_formatted.
+ * Mirrors field declaration: text_formatted.
  */
 
 /**

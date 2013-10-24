@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Field Declaration: taxonomy_term.
+ * Mirrors field declaration: taxonomy_term.
  * The term name (not tid) of the field is used as mapper.
  */
 

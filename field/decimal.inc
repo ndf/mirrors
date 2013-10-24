@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Field Declaration: decimal.
+ * Mirrors field declaration: decimal.
  * Used for both decimals and float. To support the latter the scale is
  * maximized up to 10.
  */

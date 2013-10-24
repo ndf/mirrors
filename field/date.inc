@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Field Declaration: date.
+ * Mirrors field declaration: date.
  * UNIX timestamp is used as mapper.
  */
 

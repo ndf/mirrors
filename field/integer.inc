@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Field Declaration: integer.
+ * Mirrors field declaration: integer.
  */
 
 /**

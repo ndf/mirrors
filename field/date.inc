@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Field Declarations
+ * Field Declaration: date.
+ * UNIX timestamp is used as mapper.
  */
 
 /**

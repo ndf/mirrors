@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Field Declarations
+ * Field Declaration: boolean.
+ * To display boolean correctly the module 'boolean_formatter' is used.
  */
 
 /**

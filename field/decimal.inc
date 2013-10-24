@@ -2,9 +2,9 @@
 
 /**
  * @file
- * Field Declarations
- * This field is used for both decimals as float. To support the latter
- * the scale is pushed up to 10.
+ * Field Declaration: decimal.
+ * Used for both decimals and float. To support the latter the scale is
+ * maximized up to 10.
  */
 
 /**

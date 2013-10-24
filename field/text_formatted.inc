@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Field Declarations
+ * Field Declaration: text_formatted.
  */
 
 /**

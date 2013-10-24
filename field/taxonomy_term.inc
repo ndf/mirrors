@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Field Declarations
+ * Field Declaration: taxonomy_term.
+ * The term name (not tid) of the field is used as mapper.
  */
 
 /**

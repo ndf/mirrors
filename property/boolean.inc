@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Property Declarations
+ * Mirrors property declaration: boolean.
+ * To display boolean correctly the views 'boolean' formatter is used.
  */
 
 /**

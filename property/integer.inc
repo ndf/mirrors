@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Property Declarations
+ * Mirrors property declaration: integer.
  */
 
 /**

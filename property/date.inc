@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Property Declarations
+ * Mirrors property declaration: date.
+ * UNIX timestamp is used as mapper.
  */
 
 /**

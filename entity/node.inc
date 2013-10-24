@@ -9,9 +9,9 @@
  * Entity Declaration: node.
  *
  * Called directly from mirrors.module.
- * Use hook_entity_types_alter() from other modules.
+ * Use hook_mirrors_entity_types_alter() from other modules.
  */
-function mirrors_entity_types_node(&$entity_types) {
+function mirrors_mirrors_entity_types_node(&$entity_types) {
   $entity_types['node'] = array(
     'views' => array(
       'base_table' => 'node',

@@ -51,10 +51,10 @@ function mirrors_bundles() {
  */
 function mirrors_entity_types() {
 
-  $entity_types = mirrors_entity_types_defaults();
-  drupal_alter('entity_types', $entity_types);
+  $mirrors_entity_types = mirrors_entity_types_defaults();
+  drupal_alter('mirrors_entity_types', $mirrors_entity_types);
 
-  return $entity_types;
+  return $mirrors_entity_types;
 }
 
 /**

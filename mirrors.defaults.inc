@@ -9,7 +9,7 @@
  * Returns default entity types.
  */
 function mirrors_entity_types_defaults() {
-  $entity_types = array();
+  $mirrors_entity_types = array();
 
   // Core entity_types are supported by default.
   $core_entity_types = array(
@@ -23,13 +23,13 @@ function mirrors_entity_types_defaults() {
   foreach ($core_entity_types as $type) {
     module_load_include('inc', 'mirrors', 'entity/' . $type);
 
-    $function = 'mirrors_entity_types_' . $type;
+    $function = 'mirrors_mirrors_entity_types_' . $type;
     if (function_exists($function)) {
-      $function($entity_types);
+      $function($mirrors_entity_types);
     }
   }
 
-  return $entity_types;
+  return $mirrors_entity_types;
 }
 
 /**

@@ -9,10 +9,10 @@
  * Property Declaration: text.
  *
  * Called directly from mirrors.module.
- * Use hook_property_types_alter() from other modules.
+ * Use hook_mirrors_property_types_alter() from other modules.
  */
-function mirrors_property_types_text(&$property_types) {
-  $property_types['text'] = array(
+function mirrors_mirrors_property_types_text(&$mirrors_property_types) {
+  $mirrors_property_types['text'] = array(
     'views' => array(),
     'feeds' => array(),
   );

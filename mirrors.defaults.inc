@@ -66,7 +66,7 @@ function mirrors_field_types_defaults() {
  * Returns default property types.
  */
 function mirrors_property_types_defaults() {
-  $property_types = array();
+  $mirrors_property_types = array();
 
   // Core field_types are supported by default.
   $core_property_types = array(
@@ -80,11 +80,11 @@ function mirrors_property_types_defaults() {
   foreach ($core_property_types as $type) {
     module_load_include('inc', 'mirrors', 'property/' . $type);
 
-    $function = 'mirrors_property_types_' . $type;
+    $function = 'mirrors_mirrors_property_types_' . $type;
     if (function_exists($function)) {
-      $function($property_types);
+      $function($mirrors_property_types);
     }
   }
 
-  return $property_types;
+  return $mirrors_property_types;
 }

@@ -9,10 +9,10 @@
  * Property Declaration: integer.
  *
  * Called directly from mirrors.module.
- * Use hook_property_types_alter() from other modules.
+ * Use hook_mirrors_property_types_alter() from other modules.
  */
-function mirrors_property_types_integer(&$property_types) {
-  $property_types['integer'] = array(
+function mirrors_mirrors_property_types_integer(&$mirrors_property_types) {
+  $mirrors_property_types['integer'] = array(
     'views' => array(
       'type' => 'number_unformatted',
     ),

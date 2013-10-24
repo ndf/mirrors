@@ -73,10 +73,10 @@ function mirrors_field_types() {
  */
 function mirrors_property_types() {
 
-  $property_types = mirrors_property_types_defaults();
-  drupal_alter('property_types', $property_types);
+  $mirrors_property_types = mirrors_property_types_defaults();
+  drupal_alter('mirrors_property_types', $mirrors_property_types);
 
-  return $property_types;
+  return $mirrors_property_types;
 }
 
 /**

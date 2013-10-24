@@ -9,10 +9,10 @@
  * Property Declaration: date.
  *
  * Called directly from mirrors.module.
- * Use hook_property_types_alter() from other modules.
+ * Use hook_mirrors_property_types_alter() from other modules.
  */
-function mirrors_property_types_date(&$property_types) {
-  $property_types['date'] = array(
+function mirrors_mirrors_property_types_date(&$mirrors_property_types) {
+  $mirrors_property_types['date'] = array(
     'views' => array(
       'date_format' => 'custom',
       'custom_date_format' => 'U',

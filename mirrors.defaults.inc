@@ -36,7 +36,7 @@ function mirrors_entity_types_defaults() {
  * Returns default field types.
  */
 function mirrors_field_types_defaults() {
-  $field_types = array();
+  $mirrors_field_types = array();
 
   // Core field_types are supported by default.
   $core_field_types = array(
@@ -53,13 +53,13 @@ function mirrors_field_types_defaults() {
   foreach ($core_field_types as $type) {
     module_load_include('inc', 'mirrors', 'field/' . $type);
 
-    $function = 'mirrors_field_types_' . $type;
+    $function = 'mirrors_mirrors_field_types_' . $type;
     if (function_exists($function)) {
-      $function($field_types);
+      $function($mirrors_field_types);
     }
   }
 
-  return $field_types;
+  return $mirrors_field_types;
 }
 
 /**

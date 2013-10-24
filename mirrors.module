@@ -62,14 +62,14 @@ function mirrors_entity_types() {
  */
 function mirrors_field_types() {
 
-  $field_types = mirrors_field_types_defaults();
-  drupal_alter('field_types', $field_types);
+  $mirrors_field_types = mirrors_field_types_defaults();
+  drupal_alter('mirrors_field_types', $mirrors_field_types);
 
-  return $field_types;
+  return $mirrors_field_types;
 }
 
 /**
- * Returns supported field_types, hookable.
+ * Returns supported property_types, hookable.
  */
 function mirrors_property_types() {
 

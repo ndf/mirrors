@@ -39,8 +39,8 @@ function mirrors_permission() {
  */
 function mirrors_bundles() {
   $bundles = _mirrors_supported_bundles();
-  $bundles = _mirrors_add_property_settings($bundles);
-  $bundles = _mirrors_add_fields($bundles);
+  _mirrors_add_property_settings($bundles);
+  _mirrors_add_fields($bundles);
 
   return $bundles;
 }
@@ -109,7 +109,7 @@ function _mirrors_supported_bundles() {
 /**
  * Add properties settings.
  */
-function _mirrors_add_property_settings($bundles) {
+function _mirrors_add_property_settings(&$bundles) {
   $mirrors_property_types = mirrors_property_types();
 
   // Loop through all entity types (node, user, etc.).
@@ -135,7 +135,7 @@ function _mirrors_add_property_settings($bundles) {
 /**
  * Add fields to bundles.
  */
-function _mirrors_add_fields($bundles) {
+function _mirrors_add_fields(&$bundles) {
   $mirrors_field_types = mirrors_field_types();
 
   $entities = entity_get_property_info();

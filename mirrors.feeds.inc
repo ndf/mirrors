@@ -47,8 +47,10 @@ function mirrors_feeds_mapping_create($mirrors_entity) {
 
     // Now enable specific feeds overrides.
     if (isset($property['feeds'])) {
-      foreach ((array) $property['feeds'] as $key => $value) {
-        $mapper[$key] = $value;
+      foreach ((array) $property['feeds'] as $override => $value) {
+        // Parse key override supporter (with '<$key>:extension' structure).
+        mirrors_feeds_mapping_extend_token($key, $override, $value);
+        $mapper[$override] = $value;
       }
     }
 
@@ -64,4 +66,21 @@ function mirrors_feeds_mapping_create($mirrors_entity) {
   }
 
   return $mapping;
+}
+
+/**
+ * Helper function to extend a normal key. Used in Feeds when a target is
+ * extended with a postfix.
+ * This function is used by mirrors_commerce to extend the commerce_product
+ * field.
+ * @2do: needs more descriptive parameters (key, override).
+ */
+function mirrors_feeds_mapping_extend_token($key, $override, &$value) {
+  $key_length = strlen($override);
+  // Check if we are dealing with a list.
+  if (substr($value, 0, $key_length + 2) == '<' . $override . '>') {
+    $extension = substr($value, $key_length + 2);
+    $value = $key . $extension;
+    // Extract field_type "list<$field_type>".
+  }
 }

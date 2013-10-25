@@ -23,7 +23,7 @@ function mirrors_entity_types_defaults() {
   foreach ($core_entity_types as $type) {
     module_load_include('inc', 'mirrors', 'entity/' . $type);
 
-    $function = 'mirrors_mirrors_entity_types_' . $type;
+    $function = 'mirrors_entity_types_' . $type;
     if (function_exists($function)) {
       $function($mirrors_entity_types);
     }
@@ -53,7 +53,7 @@ function mirrors_field_types_defaults() {
   foreach ($core_field_types as $type) {
     module_load_include('inc', 'mirrors', 'field/' . $type);
 
-    $function = 'mirrors_mirrors_field_types_' . $type;
+    $function = 'mirrors_field_types_' . $type;
     if (function_exists($function)) {
       $function($mirrors_field_types);
     }
@@ -80,7 +80,7 @@ function mirrors_property_types_defaults() {
   foreach ($core_property_types as $type) {
     module_load_include('inc', 'mirrors', 'property/' . $type);
 
-    $function = 'mirrors_mirrors_property_types_' . $type;
+    $function = 'mirrors_property_types_' . $type;
     if (function_exists($function)) {
       $function($mirrors_property_types);
     }

@@ -12,7 +12,7 @@
  * Called directly from mirrors.module.
  * Use hook_mirrors_entity_types_alter() from other modules.
  */
-function mirrors_mirrors_entity_types_node(&$mirrors_entity_types) {
+function mirrors_entity_types_node(&$mirrors_entity_types) {
   $mirrors_entity_types['node'] = array(
     'views' => array(
       'base_table' => 'node',

@@ -13,7 +13,7 @@
  * Called directly from mirrors.module.
  * Use hook_mirrors_field_types_alter() from other modules.
  */
-function mirrors_mirrors_field_types_decimal(&$mirrors_field_types) {
+function mirrors_field_types_decimal(&$mirrors_field_types) {
   $mirrors_field_types['decimal'] = array(
     'views' => array(
       'settings' => array(

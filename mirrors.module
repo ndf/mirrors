@@ -51,11 +51,11 @@ function mirrors_ctools_plugin_api($module = 'mirrors', $api = '') {
 function mirrors_bundles() {
   module_load_include('inc', 'mirrors', 'mirrors.defaults');
 
-  $bundles = _mirrors_supported_bundles();
-  _mirrors_add_property_settings($bundles);
-  _mirrors_add_fields($bundles);
+  $mirrors_bundles = _mirrors_supported_bundles();
+  _mirrors_add_property_settings($mirrors_bundles);
+  _mirrors_add_fields($mirrors_bundles);
 
-  return $bundles;
+  return $mirrors_bundles;
 }
 
 /**
@@ -168,11 +168,11 @@ function _mirrors_supported_bundles() {
 /**
  * Add properties settings.
  */
-function _mirrors_add_property_settings(&$bundles) {
+function _mirrors_add_property_settings(&$mirrors_bundles) {
   $mirrors_property_types = mirrors_property_types();
 
   // Loop through all entity types (node, user, etc.).
-  foreach ($bundles as &$bundle) {
+  foreach ($mirrors_bundles as &$bundle) {
     // Loop through all bundles (article, page, etc.).
     foreach ($bundle as &$entity) {
       // Loop through all properties (nid, status, etc.).
@@ -187,20 +187,18 @@ function _mirrors_add_property_settings(&$bundles) {
       }
     }
   }
-
-  return $bundles;
 }
 
 /**
  * Add fields to bundles.
  */
-function _mirrors_add_fields(&$bundles) {
+function _mirrors_add_fields(&$mirrors_bundles) {
   $mirrors_field_types = mirrors_field_types();
 
   $entities = entity_get_property_info();
 
   // Loop through all entity types (node, user, etc.).
-  foreach ($bundles as $entity_type => &$bundle) {
+  foreach ($mirrors_bundles as $entity_type => &$bundle) {
     // Loop through all bundles (article, page, etc.).
     foreach ($bundle as $entity_id => &$entity) {
 
@@ -226,8 +224,6 @@ function _mirrors_add_fields(&$bundles) {
       $entity['fields'] = $mirrors_fields;
     }
   }
-
-  return $bundles;
 }
 
 /**

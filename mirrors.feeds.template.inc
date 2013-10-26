@@ -17,7 +17,7 @@
  * @param int $entity_id
  *   Entity_id or bundle_id (article, page, etc.).
  *
- * @param string $processor 
+ * @param string $processor
  *   Processor (FeedsNodeProcessor, etc.).
  */
 function mirrors_feeds_default_template($name, $entity_type, $entity_id, $processor) {

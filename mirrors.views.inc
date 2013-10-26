@@ -67,6 +67,10 @@ function mirrors_views_mapping_create($mirrors_entity, $base_table) {
         $fields[$key][$new] = $value;
       }
     }
+    // Extra Views Settings.
+    if (isset($field['list'])) {
+      $fields[$key]['separator'] = MIRRORS_DEFAULT_SEPARATOR;
+    }
   }
 
   return $fields;

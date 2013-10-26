@@ -17,7 +17,7 @@
  * @param string $base_table
  *   Base_table (node, users, etc.).
  *
- * @param array $display_options 
+ * @param array $display_options
  *   Contains filters, relationsships, sorts and fields.
  */
 function mirrors_views_default_template($name, $entity_type, $base_table, $display_options) {

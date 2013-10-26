@@ -15,6 +15,11 @@
  */
 
 /**
+ * Default separator is used in multivalue list-fields.
+ */
+define('MIRRORS_DEFAULT_SEPARATOR', '/');
+
+/**
  * Implements hook_permission().
  */
 function mirrors_permission() {
@@ -36,9 +41,13 @@ function mirrors_views_api() {
 /**
  * Implements hook_ctools_plugin_api().
  */
-function mirrors_ctools_plugin_api($module = 'mirrors', $api = '') {
+function mirrors_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
   if ($module == 'feeds' && $api == 'feeds_importer_default') {
     return array('version' => 1);
+  }
+  if ($module == "feeds_tamper" && $api == "feeds_tamper_default") {
+    return array("version" => "2");
   }
 }
 
@@ -104,6 +113,41 @@ function mirrors_feeds_importer_default() {
 
   return $export;
 }
+
+/**
+ * Implements hook_feeds_tamper_default().
+ * Feeds Tamper is acting only on multivalue-fields (lists). We find these
+ * and create appropriate tampers for them.
+ */
+function mirrors_feeds_tamper_default() {
+  module_load_include('inc', 'mirrors', 'mirrors.feeds_tamper');
+
+  $export = array();
+  $bundles = mirrors_bundles();
+
+  foreach ($bundles as $entity_type => $bundle) {
+    foreach ($bundle as $entity_id => $mirrors_entity) {
+
+      // Now through the fields and act when its a list field.
+      foreach ($mirrors_entity['fields'] as $key => $field) {
+        if (array_key_exists('list', $field) && $field['list'] == TRUE) {
+          $name = "mirrors_" . $entity_type . "__" . $entity_id;
+          $field_id = $key;
+
+          $try = mirrors_feeds_tamper_create($name, $field_id);
+
+          if ($try !== FALSE) {
+            $export[$name . '-' . $field_id . '-explode'] = $try;
+          }
+        }
+      }
+
+    }
+  }
+
+  return $export;
+}
+
 
 /**
  * Returns supported entity_types, hookable.
@@ -209,6 +253,12 @@ function _mirrors_add_fields(&$mirrors_bundles) {
 
         foreach ($fields as $key => $field) {
           $field_type = mirrors_field_type_filter_list($field['type']);
+
+          // If we deal with a list, we put that in the condensed array so
+          // importers and exporters can act on it.
+          if ($field['type'] !== $field_type) {
+            $mirrors_field_types[$field_type]['list'] = TRUE;
+          }
 
           // If supported field type, add to mirrors condensed array.
           if (array_key_exists($field_type, $mirrors_field_types)) {

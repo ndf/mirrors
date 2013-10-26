@@ -5,4 +5,5 @@ core = 7.x
 dependencies[] = views
 dependencies[] = views_data_export (>7.x-3.0-beta6+42)
 dependencies[] = feeds
+dependencies[] = feeds_tamper
 dependencies[] = boolean_formatter

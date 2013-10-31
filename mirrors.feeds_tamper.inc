@@ -13,11 +13,4 @@ module_load_include('inc', 'mirrors', 'mirrors.feeds_tamper.template');
 function mirrors_feeds_tamper_create($name, $field_id) {
   $feeds_tamper = mirrors_feeds_tamper_default_template($name, $field_id);
   return $feeds_tamper;
-
-
-  dpm($feeds_tamper);
-  $export[$name . '-' . $field_id . '-explode'] = $feeds_tamper;
-
-  dpm($export);
-  return $export;
 }

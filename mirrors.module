@@ -116,6 +116,7 @@ function mirrors_feeds_importer_default() {
 
 /**
  * Implements hook_feeds_tamper_default().
+ *
  * Feeds Tamper is acting only on multivalue-fields (lists). We find these
  * and create appropriate tampers for them.
  */

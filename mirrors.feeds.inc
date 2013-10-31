@@ -69,10 +69,11 @@ function mirrors_feeds_mapping_create($mirrors_entity) {
 }
 
 /**
- * Helper function to extend a normal key. Used in Feeds when a target is
- * extended with a postfix.
- * This function is used by mirrors_commerce to extend the commerce_product
- * field.
+ * Helper function to extend a normal key.
+ *
+ * This function is used by used in Feeds when a target is extended with a
+ * postfix. For and example check mirrors_commerce where this function is used
+ * to extend the commerce_product field.
  * @2do: needs more descriptive parameters (key, override).
  */
 function mirrors_feeds_mapping_extend_token($key, $override, &$value) {

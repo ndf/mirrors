@@ -1,9 +1,9 @@
-The Mirrors module automagicly creates exporters and importers for active
+The Mirrors module automagically creates exporters and importers for active
 bundles.
 Exports are Views Data Exports in CSV format.
 Imports are Feeds.
 
-This module supports specific core entites and fields.
+This module supports specific core entities and fields.
 
 Supported Entities:
 - node

@@ -13,17 +13,17 @@ function mirrors_example_taxonomy_default_vocabularies() {
       'name' => 'Taxonomy no Fields',
       'machine_name' => 'no_fields',
       'description' => '',
-      'hierarchy' => '1',
+      'hierarchy' => 1,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
     ),
     'with_fields' => array(
       'name' => 'Taxonomy with Fields',
       'machine_name' => 'with_fields',
       'description' => '',
-      'hierarchy' => '1',
+      'hierarchy' => 1,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
     ),
   );
 }

@@ -270,14 +270,14 @@ function mirrors_example_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-with_fields-field_list_float'.
-  $fields['node-with_fields-field_list_float'] = array(
+  // Exported field: 'node-with_fields-field_list_multiple_float'.
+  $fields['node-with_fields-field_list_multiple_float'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_list_float',
+      'field_name' => 'field_list_multiple_float',
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -317,8 +317,8 @@ function mirrors_example_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_list_float',
-      'label' => 'List (float)',
+      'field_name' => 'field_list_multiple_float',
+      'label' => 'List Multiple (float)',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -333,14 +333,14 @@ function mirrors_example_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-with_fields-field_list_integer'.
-  $fields['node-with_fields-field_list_integer'] = array(
+  // Exported field: 'node-with_fields-field_list_multiple_integer'.
+  $fields['node-with_fields-field_list_multiple_integer'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_list_integer',
+      'field_name' => 'field_list_multiple_integer',
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -382,8 +382,8 @@ function mirrors_example_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_list_integer',
-      'label' => 'List (integer)',
+      'field_name' => 'field_list_multiple_integer',
+      'label' => 'List Multiple (integer)',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -398,14 +398,14 @@ function mirrors_example_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-with_fields-field_list_text'.
-  $fields['node-with_fields-field_list_text'] = array(
+  // Exported field: 'node-with_fields-field_list_multiple_text'.
+  $fields['node-with_fields-field_list_multiple_text'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_list_text',
+      'field_name' => 'field_list_multiple_text',
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -446,8 +446,200 @@ function mirrors_example_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_list_text',
-      'label' => 'List (text)',
+      'field_name' => 'field_list_multiple_text',
+      'label' => 'List Multiple (text)',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '7',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-with_fields-field_list_single_float'.
+  $fields['node-with_fields-field_list_single_float'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_list_single_float',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          '1.1' => '1.1',
+          '1.2' => '1.2',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_float',
+    ),
+    'field_instance' => array(
+      'bundle' => 'with_fields',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 6,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_list_single_float',
+      'label' => 'List Single (float)',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '5',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-with_fields-field_list_single_integer'.
+  $fields['node-with_fields-field_list_single_integer'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_list_single_integer',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          1 => '1',
+          2 => '2',
+          3 => '3',
+          4 => '4',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'with_fields',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 7,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_list_single_integer',
+      'label' => 'List Single (integer)',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '6',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-with_fields-field_list_single_text'.
+  $fields['node-with_fields-field_list_single_text'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_list_single_text',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'one' => 'one',
+          'two' => 'two',
+          'three' => 'three',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'with_fields',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 8,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_list_single_text',
+      'label' => 'List Single (text)',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -975,14 +1167,14 @@ function mirrors_example_field_default_fields() {
     ),
   );
 
-  // Exported field: 'taxonomy_term-with_fields-field_list_float'.
-  $fields['taxonomy_term-with_fields-field_list_float'] = array(
+  // Exported field: 'taxonomy_term-with_fields-field_list_multiple_float'.
+  $fields['taxonomy_term-with_fields-field_list_multiple_float'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_list_float',
+      'field_name' => 'field_list_multiple_float',
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -1016,8 +1208,8 @@ function mirrors_example_field_default_fields() {
         ),
       ),
       'entity_type' => 'taxonomy_term',
-      'field_name' => 'field_list_float',
-      'label' => 'List (float)',
+      'field_name' => 'field_list_multiple_float',
+      'label' => 'List Multiple (float)',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -1032,14 +1224,14 @@ function mirrors_example_field_default_fields() {
     ),
   );
 
-  // Exported field: 'taxonomy_term-with_fields-field_list_integer'.
-  $fields['taxonomy_term-with_fields-field_list_integer'] = array(
+  // Exported field: 'taxonomy_term-with_fields-field_list_multiple_integer'.
+  $fields['taxonomy_term-with_fields-field_list_multiple_integer'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_list_integer',
+      'field_name' => 'field_list_multiple_integer',
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -1075,8 +1267,8 @@ function mirrors_example_field_default_fields() {
         ),
       ),
       'entity_type' => 'taxonomy_term',
-      'field_name' => 'field_list_integer',
-      'label' => 'List (integer)',
+      'field_name' => 'field_list_multiple_integer',
+      'label' => 'List Multiple (integer)',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -1091,14 +1283,14 @@ function mirrors_example_field_default_fields() {
     ),
   );
 
-  // Exported field: 'taxonomy_term-with_fields-field_list_text'.
-  $fields['taxonomy_term-with_fields-field_list_text'] = array(
+  // Exported field: 'taxonomy_term-with_fields-field_list_multiple_text'.
+  $fields['taxonomy_term-with_fields-field_list_multiple_text'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_list_text',
+      'field_name' => 'field_list_multiple_text',
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -1133,8 +1325,182 @@ function mirrors_example_field_default_fields() {
         ),
       ),
       'entity_type' => 'taxonomy_term',
-      'field_name' => 'field_list_text',
-      'label' => 'List (text)',
+      'field_name' => 'field_list_multiple_text',
+      'label' => 'List Multiple (text)',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '14',
+      ),
+    ),
+  );
+
+  // Exported field: 'taxonomy_term-with_fields-field_list_single_float'.
+  $fields['taxonomy_term-with_fields-field_list_single_float'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_list_single_float',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          '1.1' => '1.1',
+          '1.2' => '1.2',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_float',
+    ),
+    'field_instance' => array(
+      'bundle' => 'with_fields',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 4,
+        ),
+      ),
+      'entity_type' => 'taxonomy_term',
+      'field_name' => 'field_list_single_float',
+      'label' => 'List Single (float)',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '10',
+      ),
+    ),
+  );
+
+  // Exported field: 'taxonomy_term-with_fields-field_list_single_integer'.
+  $fields['taxonomy_term-with_fields-field_list_single_integer'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_list_single_integer',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          1 => '1',
+          2 => '2',
+          3 => '3',
+          4 => '4',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'with_fields',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 5,
+        ),
+      ),
+      'entity_type' => 'taxonomy_term',
+      'field_name' => 'field_list_single_integer',
+      'label' => 'List Single (integer)',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '12',
+      ),
+    ),
+  );
+
+  // Exported field: 'taxonomy_term-with_fields-field_list_single_text'.
+  $fields['taxonomy_term-with_fields-field_list_single_text'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_list_single_text',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'one' => 'one',
+          'two' => 'two',
+          'three' => 'three',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'with_fields',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 6,
+        ),
+      ),
+      'entity_type' => 'taxonomy_term',
+      'field_name' => 'field_list_single_text',
+      'label' => 'List Single (text)',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -1401,15 +1767,18 @@ function mirrors_example_field_default_fields() {
     ),
   );
 
-  // Translatables.
+  // Translatables
   // Included for use with string extractors like potx.
   t('Boolean');
   t('Decimal');
   t('Float');
   t('Integer');
-  t('List (float)');
-  t('List (integer)');
-  t('List (text)');
+  t('List Multiple (float)');
+  t('List Multiple (integer)');
+  t('List Multiple (text)');
+  t('List Single (float)');
+  t('List Single (integer)');
+  t('List Single (text)');
   t('Long Text');
   t('Long Text and Summary');
   t('Term Reference');

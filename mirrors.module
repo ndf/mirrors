@@ -32,6 +32,28 @@ function mirrors_permission() {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function mirrors_menu() {
+  $items = array();
+  $items['admin/structure/mirrors'] = array(
+    'title'             => 'Mirrors',
+    'description'       => 'Manage Mirrors settings for each bundle.',
+    'page callback'     => 'mirrors_admin_page',
+    'access arguments'  => array('administer mirrors'),
+    'file'              => 'mirrors.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function mirrors_uninstall() {
+  variable_del('mirrors_settings');
+}
+
+/**
  * Implements hook_views_api().
  */
 function mirrors_views_api() {
@@ -68,19 +90,50 @@ function mirrors_bundles() {
 }
 
 /**
+ * Returns bundle configuration for supported entity and field types.
+ *
+ * These configurations are used by mirrors_views and mirrors_feeds
+ * to create exporters and importers.
+ */
+function mirrors_enabled_bundles() {
+  $mirrors_enabled_bundles = array();
+  $mirrors_bundles = mirrors_bundles();
+
+  // Load saved values from database..
+  $stored_values = variable_get('mirrors_settings');
+  
+  if (isset($stored_values)) {  
+    // Loop through all bundles and check if enabled.
+    foreach ($mirrors_bundles as $entity_type_key => $entity_type) {
+      foreach ($entity_type as $bundle_key => $mirrors_bundle) {
+        
+        // Check if this one is enabled
+        $stored_value_key = $entity_type_key . '__' . $bundle_key;
+
+        if (isset($stored_values[$stored_value_key]) && $stored_values[$stored_value_key] === $stored_value_key) {
+          $mirrors_enabled_bundles[$entity_type_key][$bundle_key] = $mirrors_bundle;
+        }
+      }
+    }  
+  }
+
+  return $mirrors_enabled_bundles;
+}
+
+/**
  * Implements hook_views_default_views().
  */
 function mirrors_views_default_views() {
   module_load_include('inc', 'mirrors', 'mirrors.views');
 
   $export = array();
-  $bundles = mirrors_bundles();
+  $mirrors_enabled_bundles = mirrors_enabled_bundles();
 
-  foreach ($bundles as $entity_type => $bundle) {
-    foreach ($bundle as $entity_id => $mirrors_entity) {
+  foreach ($mirrors_enabled_bundles as $entity_type_key => $entity_type) {
+    foreach ($entity_type as $bundle_key => $mirrors_bundle) {
 
-      $name = "mirrors_" . $entity_type . "__" . $entity_id;
-      $try = mirrors_views_create($name, $entity_type, $entity_id, $mirrors_entity);
+      $name = "mirrors_" . $entity_type_key . "__" . $bundle_key;
+      $try = mirrors_views_create($name, $entity_type_key, $bundle_key, $mirrors_bundle);
       if ($try !== FALSE) {
         $export[$name] = $try;
       }
@@ -97,13 +150,13 @@ function mirrors_feeds_importer_default() {
   module_load_include('inc', 'mirrors', 'mirrors.feeds');
 
   $export = array();
-  $bundles = mirrors_bundles();
+  $mirrors_enabled_bundles = mirrors_enabled_bundles();
 
-  foreach ($bundles as $entity_type => $bundle) {
-    foreach ($bundle as $entity_id => $mirrors_entity) {
+  foreach ($mirrors_enabled_bundles as $entity_type_key => $entity_type) {
+    foreach ($entity_type as $bundle_key => $mirrors_bundle) {
 
-      $name = "mirrors_" . $entity_type . "__" . $entity_id;
-      $try = mirrors_feeds_create($name, $entity_type, $entity_id, $mirrors_entity);
+      $name = "mirrors_" . $entity_type_key . "__" . $bundle_key;
+      $try = mirrors_feeds_create($name, $entity_type_key, $bundle_key, $mirrors_bundle);
 
       if ($try !== FALSE) {
         $export[$name] = $try;
@@ -124,15 +177,15 @@ function mirrors_feeds_tamper_default() {
   module_load_include('inc', 'mirrors', 'mirrors.feeds_tamper');
 
   $export = array();
-  $bundles = mirrors_bundles();
+  $mirrors_enabled_bundles = mirrors_enabled_bundles();
 
-  foreach ($bundles as $entity_type => $bundle) {
-    foreach ($bundle as $entity_id => $mirrors_entity) {
+  foreach ($mirrors_enabled_bundles as $entity_type_key => $entity_type) {
+    foreach ($entity_type as $bundle_key => $mirrors_bundle) {
 
       // Now through the fields and act when its a list field.
-      foreach ($mirrors_entity['fields'] as $key => $field) {
+      foreach ($mirrors_bundle['fields'] as $key => $field) {
         if (array_key_exists('list', $field) && $field['list'] == TRUE) {
-          $name = "mirrors_" . $entity_type . "__" . $entity_id;
+          $name = "mirrors_" . $entity_type_key . "__" . $bundle_key;
           $field_id = $key;
 
           $try = mirrors_feeds_tamper_create($name, $field_id);
@@ -195,11 +248,11 @@ function _mirrors_supported_bundles() {
   $mirrors_entity_types = mirrors_entity_types();
 
   // Loop through all entity types (node, user, etc.).
-  foreach ($bundles as $entity_type => $bundle) {
-    // If supported entity type, loop through all bundles (article, page, etc.).
-    if (array_key_exists($entity_type, $mirrors_entity_types)) {
-      foreach ($bundle as $entity_id => $entity) {
-        $mirrors_bundles[$entity_type][$entity_id] = $mirrors_entity_types[$entity_type];
+  foreach ($bundles as $entity_type_key => $entity_type) {
+    // If supported entity type, loop through its bundles (article, page, etc.).
+    if (array_key_exists($entity_type_key, $mirrors_entity_types)) {
+      foreach ($entity_type as $bundle_key => $bundle) {
+        $mirrors_bundles[$entity_type_key][$bundle_key] = $mirrors_entity_types[$entity_type_key];
       }
     }
     else {
@@ -217,11 +270,11 @@ function _mirrors_add_property_settings(&$mirrors_bundles) {
   $mirrors_property_types = mirrors_property_types();
 
   // Loop through all entity types (node, user, etc.).
-  foreach ($mirrors_bundles as &$bundle) {
+  foreach ($mirrors_bundles as &$entity_type) {
     // Loop through all bundles (article, page, etc.).
-    foreach ($bundle as &$entity) {
+    foreach ($entity_type as &$mirrors_bundle) {
       // Loop through all properties (nid, status, etc.).
-      foreach ($entity['properties'] as &$property) {
+      foreach ($mirrors_bundle['properties'] as &$property) {
         // If supported property type, add to mirrors condensed array.
         if (array_key_exists($property['type'], $mirrors_property_types)) {
           $property = array_merge_recursive(
@@ -243,14 +296,14 @@ function _mirrors_add_fields(&$mirrors_bundles) {
   $entities = entity_get_property_info();
 
   // Loop through all entity types (node, user, etc.).
-  foreach ($mirrors_bundles as $entity_type => &$bundle) {
+  foreach ($mirrors_bundles as $entity_type_key => &$entity_type) {
     // Loop through all bundles (article, page, etc.).
-    foreach ($bundle as $entity_id => &$entity) {
+    foreach ($entity_type as $bundle_key => &$mirrors_bundle) {
 
       $mirrors_fields = array();
       // Loop through all fields.
-      if (isset($entities[$entity_type]['bundles'][$entity_id]['properties'])) {
-        $fields = $entities[$entity_type]['bundles'][$entity_id]['properties'];
+      if (isset($entities[$entity_type_key]['bundles'][$bundle_key]['properties'])) {
+        $fields = $entities[$entity_type_key]['bundles'][$bundle_key]['properties'];
 
         foreach ($fields as $key => $field) {
           $field_type = mirrors_field_type_filter_list($field['type']);
@@ -272,7 +325,7 @@ function _mirrors_add_fields(&$mirrors_bundles) {
           }
         }
       }
-      $entity['fields'] = $mirrors_fields;
+      $mirrors_bundle['fields'] = $mirrors_fields;
     }
   }
 }

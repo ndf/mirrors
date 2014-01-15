@@ -32,6 +32,28 @@ function mirrors_permission() {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function mirrors_menu() {
+  $items = array();
+  $items['admin/structure/mirrors'] = array(
+    'title'             => 'Mirrors',
+    'description'       => 'Manage Mirrors settings for each bundle.',
+    'page callback'     => 'mirrors_admin_page',
+    'access arguments'  => array('administer mirrors'),
+    'file'              => 'mirrors.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function mirrors_uninstall() {
+  variable_del('mirrors_settings');
+}
+
+/**
  * Implements hook_views_api().
  */
 function mirrors_views_api() {

@@ -107,5 +107,8 @@ function _mirrors_admin_form_submit($form, &$form_state) {
 
   // Save results to database.
   variable_set('mirrors_settings', $data);
+  
+  // Rebuild views cache, otherwise changes won't show up.
+  views_invalidate_cache();
   drupal_set_message(t("Mirrors settings has been saved."));
 }

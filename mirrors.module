@@ -90,13 +90,44 @@ function mirrors_bundles() {
 }
 
 /**
+ * Returns bundle configuration for supported entity and field types.
+ *
+ * These configurations are used by mirrors_views and mirrors_feeds
+ * to create exporters and importers.
+ */
+function mirrors_enabled_bundles() {
+  $mirrors_enabled_bundles = array();
+  $bundles = mirrors_bundles();
+
+  // Load saved values from database..
+  $stored_values = variable_get('mirrors_settings');
+  
+  if (isset($stored_values)) {  
+    // Loop through all bundles and check if enabled.
+    foreach ($bundles as $entity_type => $bundle) {
+      foreach ($bundle as $entity_id => $mirrors_entity) {
+        
+        // Check if this one is enabled
+        $stored_value_key = $entity_type . '__' . $entity_id;
+
+        if (isset($stored_values[$stored_value_key]) && $stored_values[$stored_value_key] === $stored_value_key) {
+          $mirrors_enabled_bundles[$entity_type][$entity_id] = $mirrors_entity;
+        }
+      }
+    }  
+  }
+
+  return $mirrors_enabled_bundles;
+}
+
+/**
  * Implements hook_views_default_views().
  */
 function mirrors_views_default_views() {
   module_load_include('inc', 'mirrors', 'mirrors.views');
 
   $export = array();
-  $bundles = mirrors_bundles();
+  $bundles = mirrors_enabled_bundles();
 
   foreach ($bundles as $entity_type => $bundle) {
     foreach ($bundle as $entity_id => $mirrors_entity) {
@@ -119,7 +150,7 @@ function mirrors_feeds_importer_default() {
   module_load_include('inc', 'mirrors', 'mirrors.feeds');
 
   $export = array();
-  $bundles = mirrors_bundles();
+  $bundles = mirrors_enabled_bundles();
 
   foreach ($bundles as $entity_type => $bundle) {
     foreach ($bundle as $entity_id => $mirrors_entity) {
@@ -146,7 +177,7 @@ function mirrors_feeds_tamper_default() {
   module_load_include('inc', 'mirrors', 'mirrors.feeds_tamper');
 
   $export = array();
-  $bundles = mirrors_bundles();
+  $bundles = mirrors_enabled_bundles();
 
   foreach ($bundles as $entity_type => $bundle) {
     foreach ($bundle as $entity_id => $mirrors_entity) {

@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Creates an administration form where mirrors can be enabled/disabled per bundle.
+ * Creates an administration form where mirrors can be enabled/disabled per
+ * bundle.
  */
 
 /**
@@ -66,11 +67,11 @@ bundles. This is done through the Views and Feeds modules.<br/>If enabled you ge
       }
 
       $options[$key] = array(
-          'entity_type' => $entity_type_key,
-          'bundle' => $bundle_key,
-          'status' => $saved_setting,
-          'importer' => $import_links,
-          'exporter' => $export_links,
+        'entity_type' => $entity_type_key,
+        'bundle' => $bundle_key,
+        'status' => $saved_setting,
+        'importer' => $import_links,
+        'exporter' => $export_links,
       );
     }
   }
@@ -107,7 +108,7 @@ function _mirrors_admin_form_submit($form, &$form_state) {
 
   // Save results to database.
   variable_set('mirrors_settings', $data);
-  
+
   // Rebuild views cache, otherwise changes won't show up.
   views_invalidate_cache();
   drupal_set_message(t("Mirrors settings has been saved."));

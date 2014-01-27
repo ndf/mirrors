@@ -47,13 +47,6 @@ function mirrors_menu() {
 }
 
 /**
- * Implements hook_uninstall().
- */
-function mirrors_uninstall() {
-  variable_del('mirrors_settings');
-}
-
-/**
  * Implements hook_views_api().
  */
 function mirrors_views_api() {
@@ -99,22 +92,22 @@ function mirrors_enabled_bundles() {
   $mirrors_enabled_bundles = array();
   $mirrors_bundles = mirrors_bundles();
 
-  // Load saved values from database..
+  // Load saved values from database.
   $stored_values = variable_get('mirrors_settings');
-  
-  if (isset($stored_values)) {  
+
+  if (isset($stored_values)) {
     // Loop through all bundles and check if enabled.
     foreach ($mirrors_bundles as $entity_type_key => $entity_type) {
       foreach ($entity_type as $bundle_key => $mirrors_bundle) {
-        
-        // Check if this one is enabled
+
+        // Check if this bundle is enabled.
         $stored_value_key = $entity_type_key . '__' . $bundle_key;
 
         if (isset($stored_values[$stored_value_key]) && $stored_values[$stored_value_key] === $stored_value_key) {
           $mirrors_enabled_bundles[$entity_type_key][$bundle_key] = $mirrors_bundle;
         }
       }
-    }  
+    }
   }
 
   return $mirrors_enabled_bundles;

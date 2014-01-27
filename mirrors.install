@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @file
  * Performs uninstallation cleanup for the Mirrors module.
  */
 

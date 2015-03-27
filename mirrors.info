@@ -8,4 +8,5 @@ dependencies[] = entity
 dependencies[] = feeds
 dependencies[] = feeds_tamper
 dependencies[] = boolean_formatter
+dependencies[] = image_url_formatter
 configure = admin/structure/mirrors

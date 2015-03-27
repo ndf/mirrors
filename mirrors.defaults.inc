@@ -51,6 +51,7 @@ function mirrors_field_types_defaults() {
     'taxonomy_term',
     'text',
     'text_formatted',
+    'video_embed_field',
   );
 
   // We do this loop, so our module files are easier to read.

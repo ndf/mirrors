@@ -57,8 +57,8 @@ bundles. This is done through the Views and Feeds modules.<br/>If enabled you ge
       // Check if enabled, set some helper links.
       if (isset($stored_values[$key]) && $stored_values[$key] !== 0) {
         $saved_setting = t('Enabled');
-        $import_links = l(t('Views UI'), 'admin/structure/views/view/mirrors_' . $key . '/edit');
-        $export_links = l(t('Feeds UI'), 'admin/structure/feeds/mirrors_' . $key);
+        $export_links = l(t('Views UI'), 'admin/structure/views/view/mirrors_' . $key . '/edit');
+        $import_links = l(t('Feeds UI'), 'admin/structure/feeds/mirrors_' . $key);
       }
       else {
         $saved_setting = t('Disabled');

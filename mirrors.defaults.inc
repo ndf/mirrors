@@ -48,6 +48,7 @@ function mirrors_field_types_defaults() {
     'field_item_link',
     'entityreference',
     'integer',
+    'struct',
     'taxonomy_term',
     'text',
     'text_formatted',

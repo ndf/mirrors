@@ -41,7 +41,7 @@ function mirrors_entity_types_node(&$mirrors_entity_types) {
   $mirrors_entity_types['node']['properties']['title'] = array(
     'type' => 'text',
     'views' => array(
-      'link_to_user' => FALSE,
+      'link_to_node' => FALSE,
     ),
   );
   $mirrors_entity_types['node']['properties']['uid'] = array(

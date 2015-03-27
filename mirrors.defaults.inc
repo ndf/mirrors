@@ -43,6 +43,7 @@ function mirrors_field_types_defaults() {
     'boolean',
     'date',
     'decimal',
+    'entityreference',
     'integer',
     'taxonomy_term',
     'text',

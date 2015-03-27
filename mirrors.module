@@ -282,6 +282,10 @@ function _mirrors_add_property_settings(&$mirrors_bundles) {
 
 /**
  * Add fields to bundles.
+ *
+ * @todo
+ *  - use 'field_info_field()' for recognizing field-types. Currently only used
+ * for entityreference fields.
  */
 function _mirrors_add_fields(&$mirrors_bundles) {
   $mirrors_field_types = mirrors_field_types();
@@ -300,6 +304,12 @@ function _mirrors_add_fields(&$mirrors_bundles) {
 
         foreach ($fields as $key => $field) {
           $field_type = mirrors_field_type_filter_list($field['type']);
+
+          // Lookup if a field is an entityreference.
+          $field_info = field_info_field($key);
+          if ($field_info['type'] == 'entityreference') {
+            $field_type = 'entityreference';
+          }
 
           // If we deal with a list, we put that in the condensed array so
           // importers and exporters can act on it.

@@ -16,6 +16,8 @@ function mirrors_field_types_entityreference(&$mirrors_field_types) {
     'views' => array(
       'settings' => array('link' => 0),
     ),
-    'feeds' => array(),
+    'feeds' => array(
+      'target' => 'SELF:label',
+    ),
   );
 }

@@ -77,10 +77,14 @@ function mirrors_feeds_mapping_create($mirrors_entity) {
  * @2do: needs more descriptive parameters (key, override).
  */
 function mirrors_feeds_mapping_extend_token($key, $override, &$value) {
+  // If "SELF" is passed, replace it with the key.
+  $value = preg_replace('/SELF/', $key, $value, 1);
+
   $key_length = strlen($override);
   // Check if we are dealing with a list.
   if (substr($value, 0, $key_length + 2) == '<' . $override . '>') {
     $extension = substr($value, $key_length + 2);
+    dpm($extension);
     $value = $key . $extension;
     // Extract field_type "list<$field_type>".
   }

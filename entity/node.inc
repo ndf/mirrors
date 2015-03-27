@@ -31,7 +31,7 @@ function mirrors_entity_types_node(&$mirrors_entity_types) {
   );
 
   // Add Properties.
-  _mirrors_entity_types_node_extract_properties($mirrors_entity_types);
+  //  _mirrors_entity_types_node_extract_properties($mirrors_entity_types);
 
   // Override some default node properties.
   $mirrors_entity_types['node']['properties']['nid'] = array(
@@ -68,7 +68,7 @@ function _mirrors_entity_types_node_extract_properties(&$mirrors_entity_types) {
       $mirrors_entity_types['node']['properties'][$property]['type'] = $property_info['type'];
     }
     else {
-      if (variable_get('mirror_development_mode', 1)) {
+      if (variable_get('mirror_development_mode', FALSE)) {
         drupal_set_message("The node property " . $property . " cannot be handled", 'warning');
       }
     }

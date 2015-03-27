@@ -62,4 +62,9 @@ function mirrors_entity_types_node(&$mirrors_entity_types) {
       'type' => 'text',
     );
   }
+  if (module_exists('uuid')) {
+    $mirrors_entity_types['node']['properties']['uuid'] = array(
+      'type' => 'text',
+    );
+  }
 }

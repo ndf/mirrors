@@ -16,7 +16,6 @@ function mirrors_entity_types_defaults() {
     'node',
     'taxonomy_term',
     'user',
-    'not_working',
   );
 
   // We do this loop, so our module files are easier to read.

@@ -165,6 +165,8 @@ function mirrors_feeds_importer_default() {
  *
  * Feeds Tamper is acting only on multivalue-fields (lists). We find these
  * and create appropriate tampers for them.
+ *
+ * @todo: list is not working for entity-reference.
  */
 function mirrors_feeds_tamper_default() {
   module_load_include('inc', 'mirrors', 'mirrors.feeds_tamper');

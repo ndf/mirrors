@@ -5,6 +5,8 @@
  * Mirrors PSR-4 style.
  */
 
+use Drupal\mirrors_classy\Mirror;
+
 /**
  * Implements hook_block_info().
  *
@@ -38,6 +40,10 @@ function mirrors_classy_render_test_block() {
   $content = "";
 
   $content .= "test";
+
+
+  $mirror = new Mirror();
+  dpm($mirror->getLabel());
 
 
   return $content;

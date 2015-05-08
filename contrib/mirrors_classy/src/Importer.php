@@ -5,10 +5,10 @@
  * Declaration of Mirrors Importer class.
  */
 
-namespace mirrors\Importer;
-
-use mirrors\Mirror\Mirror;
+namespace Drupal\mirrors_classy;
 
 class Importer extends Mirror {
-
+  function __construct() {
+    $this->label = "Importer Label";
+  }
 }

@@ -5,10 +5,10 @@
  * Declaration of Mirros Exporter class.
  */
 
-namespace mirrors\Exporter;
-
-use mirrors\Mirror\Mirror;
+namespace Drupal\mirrors_classy;
 
 class Exporter extends Mirror {
-
+  function __construct() {
+    $this->label = "Exporter Label";
+  }
 }

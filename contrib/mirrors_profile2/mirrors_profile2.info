@@ -1,0 +1,8 @@
+name = Mirrors Profile2
+description = Import and Export Profile2 content with Feeds and Views.
+package = Mirrors
+core = 7.x
+dependencies[] = mirrors
+dependencies[] = profile2
+project = mirrors_profile2
+version = "7.x-1.x-dev"

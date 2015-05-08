@@ -1,0 +1,6 @@
+name = Mirrors Classy
+description = PSR-4 style with objects.
+package = Mirrors
+core = 7.x
+project = mirrors
+version = "7.x-1.x-dev"

@@ -1,0 +1,1 @@
+Classy PSR-4 style.

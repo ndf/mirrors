@@ -5,3 +5,40 @@
  * Mirrors PSR-4 style.
  */
 
+/**
+ * Implements hook_block_info().
+ *
+ * Simple block for testing.
+ */
+function mirrors_classy_block_info() {
+  $blocks['mirrors_classy_test_block'] = array(
+    'info' => t('Mirrors TEST block'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Render callback for test block.
+ */
+function mirrors_classy_block_view($delta = '') {
+  if ($delta == 'mirrors_classy_test_block') {
+    $block['subject'] = t('Title of second block (example_empty)');
+    $block['content'] = mirrors_classy_render_test_block();
+
+    return $block;
+  }
+}
+
+/**
+ * Render callback.
+ */
+function mirrors_classy_render_test_block() {
+  $content = "";
+
+  $content .= "test";
+
+
+  return $content;
+}

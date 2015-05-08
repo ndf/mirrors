@@ -6,19 +6,11 @@
  */
 
 /**
- * Implements hook_entity_types_alter().
+ * Implements hook_mirrors_entity_types_alter().
  */
 function mirrors_profile2_mirrors_entity_types_alter(&$mirrors_entity_types) {
   module_load_include('inc', 'mirrors_profile2', 'mirrors_profile2.defaults');
 
-  $commerce_entity_types = mirrors_profile2_entity_types_defaults();
-  $mirrors_entity_types = array_merge($mirrors_entity_types, $commerce_entity_types);
-}
-
-/**
- * Implements hook_field_types_alter().
- */
-function mirrors_profile2_mirrors_field_types_alter(&$mirrors_field_types) {
-  $commerce_field_types = mirrors_profile2_field_types_defaults();
-  $mirrors_field_types = array_merge($mirrors_field_types, $commerce_field_types);
+  $profile2_entity_types = mirrors_profile2_entity_types_defaults();
+  $mirrors_entity_types = array_merge($mirrors_entity_types, $profile2_entity_types);
 }

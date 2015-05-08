@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_entity_types_alter().
+ * Implements hook_mirrors_entity_types_alter().
  */
 function mirrors_entity_mirrors_entity_types_alter(&$mirrors_entity_types) {
   module_load_include('inc', 'mirrors_entity', 'mirrors_entity.defaults');

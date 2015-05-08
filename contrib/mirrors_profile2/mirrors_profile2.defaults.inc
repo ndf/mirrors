@@ -12,10 +12,12 @@ function mirrors_profile2_entity_types_defaults() {
   $mirrors_profile2_entity_types = array();
 
   // Profile2 Entity Types
-  $commerce_entity_types = array();
+  $profile2_entity_types = array(
+    'profile2',
+  );
 
   // We do this loop, so our module files are easier to read
-  foreach ($commerce_entity_types as $type) {
+  foreach ($profile2_entity_types as $type) {
     module_load_include('inc', 'mirrors_profile2', 'entity/' . $type);
 
     $function = 'mirrors_profile2_entity_types_' . $type;

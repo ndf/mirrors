@@ -7,7 +7,7 @@
 
 /**
  * Called directly from mirrors_commerce.module
- * User hook_field_types_alter() from other modules
+ * User hook_mirrors_field_types_alter() from other modules
  */
 function mirrors_commerce_field_types_commerce_product(&$mirrors_field_types) {
   $mirrors_field_types['commerce_product'] = array(

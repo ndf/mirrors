@@ -4,5 +4,5 @@ package = Mirrors
 core = 7.x
 dependencies[] = mirrors
 dependencies[] = profile2
-project = mirrors_profile2
+project = mirrors
 version = "7.x-1.x-dev"

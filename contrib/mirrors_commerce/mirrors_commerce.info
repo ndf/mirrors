@@ -6,5 +6,5 @@ dependencies[] = mirrors
 dependencies[] = commerce
 dependencies[] = commerce_feeds
 dependencies[] = commerce_product
-project = mirrors_commerce
+project = mirrors
 version = "7.x-1.x-dev"

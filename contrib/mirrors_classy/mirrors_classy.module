@@ -5,7 +5,9 @@
  * Mirrors PSR-4 style.
  */
 
-use Drupal\mirrors_classy\Mirror;
+use Drupal\mirrors_classy\Controller\Mirror;
+use Drupal\mirrors_classy\Exporter\Exporter;
+use Drupal\mirrors_classy\Importer\Importer;
 
 /**
  * Implements hook_block_info().
@@ -42,9 +44,59 @@ function mirrors_classy_render_test_block() {
   $content .= "test";
 
 
+//  $mirror = new Mirror();
+//  dpm($mirror->getLabel());
+  $entity_type = 'taxonomy_term';
+  $bundle = 'bc_gender';
+
+  $entity_type = 'profile2';
+  $entity_type = 'node';
+
+//  $entity = entity_create($entity_type, array('type' => $bundle));
+
+//  $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+//  dpm($entity_wrapper->getPropertyInfo());
+
+  // MUST HAVE:
+  // - fields (name, type) --> should validate on export/import. Think validation means: all required must be ok. Should notice on unsupported.
+  // - properties (name, type)  --> should validate on export/import. Think validation means: all required must be ok. Should notice on unsupported.
+
+  // Base table field type (a.k.a. properties) -> entity_type
+  // ->propertyInfo->properties   (a.k.a. properties)
+
+
+  $entity_property_info = entity_get_property_info($entity_type);
+  dpm($entity_property_info);
+  $result = [];
+  foreach ($entity_property_info['properties'] as $p => $v) {
+    // Add required properties.
+    if (isset($v['schema field'])) {
+      $result[$p] = $v;
+    }
+    if (isset($v['required'])) {
+      $result[$p] = $v;
+    }
+    if (isset($v['setter callback'])) {
+      $result[$p] = $v;
+    }
+
+    // Remove required properties that are fields.
+    if (isset($v['field']) && $v['field'] == TRUE) {
+      unset($result[$p]);
+    }
+  }
+  dpm($result);
+
+
   $mirror = new Mirror();
   dpm($mirror->getLabel());
+  $mirror->setLabel("NEw label");
+  dpm($mirror->getLabel());
 
+  dpm($mirror->getExporter()->getLabel());
+
+//  $importer = new Importer("HOI");
+//  dpm($importer->getLabel());
 
   return $content;
 }

@@ -1,0 +1,8 @@
+name = Mirrors Entity
+description = Import and Export Entity content with Feeds and Views.
+package = Mirrors
+core = 7.x
+dependencies[] = mirrors
+dependencies[] = entity
+project = mirrors
+version = "7.x-1.x-dev"

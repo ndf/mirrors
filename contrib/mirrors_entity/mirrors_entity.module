@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Mirror Entity
+ */
+
+/**
+ * Implements hook_entity_types_alter().
+ */
+function mirrors_entity_mirrors_entity_types_alter(&$mirrors_entity_types) {
+  module_load_include('inc', 'mirrors_entity', 'mirrors_entity.defaults');
+
+  $commerce_entity_types = mirrors_entity_entity_types_defaults();
+  $mirrors_entity_types = array_merge($mirrors_entity_types, $commerce_entity_types);
+}

@@ -7,7 +7,7 @@
 /**
  * Class TaxonomyTerm.
  */
-class User implements EntityTypeInterface {
+class User extends EntityType implements EntityTypeInterface {
 
 
 

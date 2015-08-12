@@ -7,7 +7,7 @@
 /**
  * Class Node.
  */
-class Node implements EntityTypeInterface {
+class Node extends EntityType implements EntityTypeInterface {
 
 
   /**

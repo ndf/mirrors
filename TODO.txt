@@ -1,0 +1,32 @@
+Here I sum up examples of contrib/plugins for this mirrors module.
+The idea/goal is that this will help to choose the right objects.
+
+
+SUMMARY
+field_type, property_type en entity_type komen steeds naar voren.
+
+- property_type heeft altijd een implementatie voor Feeds en Views
+- field_type heeft altijd een implementatie voor Feeds en Views
+- entity_type heeft altijd een implementatie voor Feeds en Views
+-- entity_type bevat een lijst met properties (naam + property_type)
+
+
+name: UUID
+Add a 'property' uuid for all entity-types that implement this property.
+The UUID can be handled as a text-field on views/export (no settings)
+The UUID will have extra settings in the importer/feeds, namely that is is the
+preferred 'unique field' and it probably needs another contrib to import it.
+
+name: taxonomy lineage
+Add a 'views' sorting for 'taxonomy-term' entity-type.
+Does not have extra settings for import, only for export.
+
+name: commerce
+Add 'field-types' from commerce: commerce_price, commerce_product_reference, etc
+these fields have both export and import settings.
+Add 'entity-types' from commerce: line-item, order, etc with their properties listed
+these entity-types will have a specific feeds-processor
+
+name: profile2
+Add 'entity-type' profile2 with properties and export and import settings for
+both -entity-type and -properties

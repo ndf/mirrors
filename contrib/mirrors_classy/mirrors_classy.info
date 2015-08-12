@@ -1,8 +1,0 @@
-name = Mirrors Classy
-description = PSR-4 style with objects.
-package = Mirrors
-dependencies[] = composer_manager
-dependencies[] = entity
-core = 7.x
-project = mirrors_classy
-version = "7.x-1.x-dev"

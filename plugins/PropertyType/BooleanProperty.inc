@@ -12,7 +12,7 @@
  * Called directly from mirrors.module.
  * Use hook_mirrors_property_types_alter() from other modules.
  */
-class Boolean extends PropertyType implements PropertyTypeInterface {
+class BooleanProperty extends PropertyType implements PropertyTypeInterface {
 
 
   function mirrors_property_types_boolean(&$mirrors_property_types) {

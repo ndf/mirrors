@@ -9,6 +9,82 @@
  */
 class User extends EntityType implements EntityTypeInterface {
 
+  private $properties;
+
+
+  /**
+   * Construct.
+   */
+  function __construct() {
+    $this->setProperties();
+  }
+
+  /**
+   * Set properties
+   */
+  private function setProperties() {
+
+    $properties = array();
+
+    // Username.
+    $viewsSettings = new PropertyViewsSettings(
+      array(
+        'link_to_user' => FALSE,
+      )
+    );
+    $feedsSettings = new PropertyFeedsSettings(
+      array(
+        'unique' => TRUE,
+      )
+    );
+    $properties[] = new TextProperty('name', $viewsSettings, $feedsSettings);
+
+
+
+    // Mail.
+    $viewsSettings = new PropertyViewsSettings(
+      array(
+        'link_to_user' => FALSE,
+      )
+    );
+    $properties[] = new TextProperty('mail', $viewsSettings, null);
+
+    // Created.
+    $properties[] = new DateProperty('created');
+
+    // Status.
+    $properties[] = new BooleanProperty('created');
+
+    // Language.
+    $viewsSettings = new PropertyViewsSettings(
+      array(
+        'link_to_user' => FALSE,
+      )
+    );
+    $properties[] = new TextProperty('created', $viewsSettings, null);
+  }
+
+  /**
+   * Return properties.
+   *
+   * @return PropertyType[]
+   *   array with properties.
+   */
+  public function getProperties() {
+    return $this->properties;
+  }
+
+  /**
+   * Return Feeds settings that must be used for generating feeds exporter.
+   */
+  public function getImporterSettings() {
+  }
+
+  /**
+   * Return Views settings that must be used for generating feeds exporter.
+   */
+  public function getExporterSettings() {
+  }
 
 
   /**

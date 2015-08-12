@@ -1,0 +1,32 @@
+# Mapping for 'user' entity-type.
+# @see: YAML interface mirrors/entity_type
+entity_type: user
+properties: 
+  created: 
+    type: date
+  language: 
+    settings_views: 
+      link_to_user: false
+    type: text
+  mail: 
+    settings_views: 
+      link_to_user: false
+    type: text
+  name: 
+    settings_feeds: 
+      unique: true
+    settings_views: 
+      link_to_user: false
+    type: text
+  status: 
+    type: boolean
+settings_feeds: 
+  processor: FeedsUserProcessor
+  fields: ~
+settings_views: 
+  filters: ~
+  handler: 
+    base_table: users
+  sorts: 
+    uid: users
+  fields: ~

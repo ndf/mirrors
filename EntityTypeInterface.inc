@@ -11,8 +11,11 @@ interface EntityTypeInterface {
 
   /**
    * Return properties.
+   *
+   * @return PropertyType[]
+   *   Array object that implements PropertyTypeInterface and extends PropertyType.
    */
-  public function getEntityProperties();
+  public function getProperties();
 
   /**
    * Return Feeds settings that must be used for generating feeds exporter.

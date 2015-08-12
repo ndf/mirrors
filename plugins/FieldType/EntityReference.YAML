@@ -1,0 +1,17 @@
+# Mmapping for 'entityreference' field-type.
+# @see: YAML interface mirrors/field_type
+field_type: entityreference
+feeds:
+  field:
+    name: entityreference
+    settings:
+      target: "SELF:label"
+  processor: ~
+views:
+  field:
+    name: entityreference
+    settings:
+      link: false
+  sorts: ~
+  handler: ~
+  filters: ~

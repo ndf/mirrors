@@ -2,6 +2,8 @@
 /**
  * @file
  * Contains: TaxonomyTerm.
+ *
+ * @todo: move this to YAML, EntityType class should discover this configuration.
  */
 
 /**

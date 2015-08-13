@@ -6,6 +6,59 @@
  */
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function mirrors_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'mirrors') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function mirrors_ctools_plugin_type() {
+  $plugins['entity_type'] = array();
+  $plugins['field_type'] = array();
+  $plugins['property_type'] = array();
+  return $plugins;
+}
+
+/**
+ * Get the list of entity_type plugins.
+ */
+function mirrors_entity_type_plugins() {
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('mirrors', 'entity_type');
+  uasort($plugins, 'ctools_plugin_sort');
+
+  return $plugins;
+}
+
+/**
+ * Get the list of property_type plugins.
+ */
+function mirrors_property_type_plugins() {
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('mirrors', 'property_type');
+  uasort($plugins, 'ctools_plugin_sort');
+
+  return $plugins;
+}
+
+/**
+ * Get the list of field_type plugins.
+ */
+function mirrors_field_type_plugins() {
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('mirrors', 'field_type');
+  uasort($plugins, 'ctools_plugin_sort');
+
+  return $plugins;
+}
+
+
+/**
  * Per entity-bundle a feed importer and a views-exporter will be created.
  *
  * Logic:
@@ -37,11 +90,11 @@ function mirrors_permission() {
 function mirrors_menu() {
   $items = array();
   $items['admin/structure/mirrors'] = array(
-    'title'             => 'Mirrors',
-    'description'       => 'Manage Mirrors settings for each bundle.',
-    'page callback'     => 'mirrors_admin_page',
-    'access arguments'  => array('administer mirrors'),
-    'file'              => 'mirrors.admin.inc',
+    'title' => 'Mirrors',
+    'description' => 'Manage Mirrors settings for each bundle.',
+    'page callback' => 'mirrors_admin_page',
+    'access arguments' => array('administer mirrors'),
+    'file' => 'mirrors.admin.inc',
   );
   return $items;
 }

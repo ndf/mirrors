@@ -1,7 +1,10 @@
 <?php
+
 /**
  * @file
  */
+
+namespace Drupal\mirrors;
 
 /**
  * Class Mirror.

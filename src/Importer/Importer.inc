@@ -4,6 +4,8 @@
  * @file
  */
 
+namespace Drupal\mirrors\Importer;
+
 /**
  * Class Importer
  */

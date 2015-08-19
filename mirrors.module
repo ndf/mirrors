@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\mirrors\Test;
+
 /**
  * @file
  * Creates an Export View and an Import Feed for your entities

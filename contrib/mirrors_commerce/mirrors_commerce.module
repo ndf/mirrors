@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Module file for mirrors_commerce module.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function mirrors_commerce_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'mirrors') {
+    return 'plugins/' . $plugin;
+  }
+}

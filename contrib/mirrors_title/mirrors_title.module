@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Module file for mirrors_title module.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function mirrors_title_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'mirrors') {
+    return 'plugins/' . $plugin;
+  }
+}

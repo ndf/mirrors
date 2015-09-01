@@ -3,4 +3,6 @@ description = Migrate content with automatic created Export Views and Import Fee
 package = Mirrors
 core = 7.x
 dependencies[] = xautoload
+dependencies[] = ctools
+dependencies[] = entity
 configure = admin/structure/mirrors

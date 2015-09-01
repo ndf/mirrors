@@ -1,0 +1,6 @@
+name = Mirrors Title
+description = Title field support for Mirrors module.
+package = Mirrors
+core = 7.x
+dependencies[] = xautoload
+configure = admin/structure/mirrors

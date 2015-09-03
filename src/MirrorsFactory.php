@@ -39,7 +39,7 @@ class MirrorsFactory {
     // Validate the mirror object.
 
     // Return the mirror object.
-    dpm($mirrors);
+    return $mirrors;
   }
 
   public function __construct() {

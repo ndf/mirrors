@@ -68,12 +68,14 @@ function mirrors_admin_page() {
 
   $article_bundle = entity_metadata_wrapper('node', entity_create('node', array('type' => 'carnaval')));
   $article_bundle_mirrors = new MirrorsFactory;
-  $article_bundle_mirrors->createMirrors($article_bundle);
+  $mirrors = $article_bundle_mirrors->createMirrors($article_bundle);
+  dpm($mirrors);
 
 
   $term_bundle = entity_metadata_wrapper('taxonomy_term', entity_create('taxonomy_term', array('vocabulary_machine_name' => 'terms')));
   $term_bundle_mirrors = new MirrorsFactory;
-  $term_bundle_mirrors->createMirrors($term_bundle);
+  $mirrors = $term_bundle_mirrors->createMirrors($term_bundle);
+  dpm($mirrors);
 
 
   return 'test composer auto-loading here';

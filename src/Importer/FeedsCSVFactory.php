@@ -2,13 +2,14 @@
 
 /**
  * @file
+ * Mirrors Feeds Factory.
  */
 
 namespace Drupal\mirrors\Importer;
 
 /**
- * Class Importer
+ * Class Mirrors.
  */
-abstract class Importer {
+class FeedsCSVFactory {
 
 }

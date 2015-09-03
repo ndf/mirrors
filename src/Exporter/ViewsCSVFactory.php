@@ -1,13 +1,15 @@
 <?php
+
 /**
  * @file
+ * Mirrors Views Factory.
  */
 
 namespace Drupal\mirrors\Exporter;
 
 /**
- * Interface ExporterInterface
+ * Class Mirrors.
  */
-interface ExporterInterface {
+class ViewsCSVFactory {
 
 }

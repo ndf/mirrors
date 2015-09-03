@@ -22,8 +22,8 @@ class FeedsCSVFactory {
    */
   public function createFeed($name, $entity_type, $entity_id, $mirrors_entity) {
     $processor = $mirrors_entity['feeds']['processor'];
-    $config = mirrors_feeds_default_template($name, $entity_type, $entity_id, $processor);
-    $mapping = mirrors_feeds_mapping_create($mirrors_entity);
+    $config = $this->getDefaultTemplate($name, $entity_type, $entity_id, $processor);
+    $mapping = $this->createMapping($mirrors_entity);
 
     $config['processor']['config']['mappings'] = $mapping;
 

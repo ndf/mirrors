@@ -7,6 +7,7 @@
 
 namespace Drupal\mirrors;
 
+use Drupal\mirrors\Exporter\ViewsCSVFactory;
 use EntityMetadataWrapper;
 
 /**
@@ -30,11 +31,13 @@ class MirrorsFactory {
     $mirrors = new Mirrors($bundle->type(), $bundle->getBundle());
 
     // Create a mapping that is supported.
-    $mapping = $this->addMirrorsSupportedProperties($bundle, $mirrors);
-    $mapping = $this->addMirrorsSupportedFields($bundle, $mirrors);
+    $mirrors = $this->addMirrorsSupportedProperties($bundle, $mirrors);
+    $mirrors = $this->addMirrorsSupportedFields($bundle, $mirrors);
 
 
     // Create the mirror object with the mapping.
+    $mirrors->setExporter(new ViewsCSVFactory::getInstance());
+    $mirrors->validateExporter($mirrors->getExporterMapping());
 
     // Validate the mirror object.
 
@@ -80,6 +83,8 @@ class MirrorsFactory {
       }
     }
 
+
+    return $mirrors;
   }
 
   /**
@@ -111,5 +116,7 @@ class MirrorsFactory {
       }
     }
 
+
+    return $mirrors;
   }
 }

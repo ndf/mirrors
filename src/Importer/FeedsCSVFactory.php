@@ -11,6 +11,15 @@ namespace Drupal\mirrors\Importer;
  * Class Mirrors.
  */
 class FeedsCSVFactory {
+
+  /**
+   * @param $name
+   * @param $entity_type
+   * @param $entity_id
+   * @param $mirrors_entity
+   *
+   * @return stdClass
+   */
   public function createFeed($name, $entity_type, $entity_id, $mirrors_entity) {
     $processor = $mirrors_entity['feeds']['processor'];
     $config = mirrors_feeds_default_template($name, $entity_type, $entity_id, $processor);
@@ -28,6 +37,11 @@ class FeedsCSVFactory {
     return $feeds_importer;
   }
 
+  /**
+   * @param $mirrors_entity
+   *
+   * @return array
+   */
   private function createMapping($mirrors_entity) {
     $mapping = array();
 
@@ -47,7 +61,7 @@ class FeedsCSVFactory {
       if (isset($property['feeds'])) {
         foreach ((array) $property['feeds'] as $override => $value) {
           // Parse key override supporter (with '<$key>:extension' structure).
-          mirrors_feeds_mapping_extend_token($key, $override, $value);
+          $this->extendToken($key, $override, $value);
           $mapper[$override] = $value;
         }
       }
@@ -66,6 +80,13 @@ class FeedsCSVFactory {
     return $mapping;
   }
 
+  /**
+   * @param $key
+   * @param $override
+   * @param $value
+   *
+   * @return mixed|string
+   */
   private function extendToken($key, $override, $value) {
     // If "SELF" is passed, replace it with the key.
     $value = preg_replace('/SELF/', $key, $value, 1);
@@ -79,5 +100,64 @@ class FeedsCSVFactory {
       // Extract field_type "list<$field_type>".
     }
     return $value;
+  }
+
+  /**
+   * @param $name
+   * @param $entity_type
+   * @param $bundle
+   * @param $processor
+   *
+   * @return array
+   */
+  private function getDefaultTemplate($name, $entity_type, $bundle, $processor) {
+    $vars = array(
+      '@entity_type' => $entity_type,
+      '@bundle' => $bundle,
+    );
+    if ($entity_type == $bundle) {
+      $description = t('Import @entity_type entities from a CSV file.', $vars);
+    }
+    else {
+      $description = t('Import @entity_type entities of type @bundle from a CSV file.', $vars);
+    }
+
+    return array(
+      'name' => $name,
+      'description' => $description,
+      'fetcher' => array(
+        'plugin_key' => 'FeedsFileFetcher',
+        'config' => array(
+          'direct' => FALSE,
+          'allowed_extensions' => 'txt csv tsv xml opml',
+          'directory' => 'public://feeds',
+          'allowed_schemes' => array(
+            0 => 'public',
+          ),
+        ),
+      ),
+      'parser' => array(
+        'plugin_key' => 'FeedsCSVParser',
+        'config' => array(
+          'delimiter' => ';',
+          'no_headers' => 0,
+        ),
+      ),
+      'processor' => array(
+        'plugin_key' => $processor,
+        'config' => array(
+          'bundle' => $bundle,
+          'update_existing' => 1,
+          'expire' => '-1',
+          'input_format' => 'plain_text',
+          'author' => 0,
+        ),
+      ),
+      'update' => 0,
+      'update_existing' => 2,
+      'import_period' => '-1',
+      'expire_period' => 0,
+      'import_on_create' => 1,
+    );
   }
 }

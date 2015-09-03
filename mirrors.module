@@ -72,7 +72,7 @@ function mirrors_field_type_plugins() {
 /**
  * Default separator is used in multivalue list-fields.
  */
-define('MIRRORS_DEFAULT_SEPARATOR', '/');
+define('Mirrors_DEFAULT_SEPARATOR', '/');
 
 /**
  * Implements hook_permission().

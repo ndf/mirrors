@@ -93,7 +93,7 @@ class Node extends EntityType implements EntityTypeInterface {
         $mirrors_entity_types['node']['properties'][$property]['type'] = $property_info['type'];
       }
       else {
-        if (variable_get('mirror_development_mode', FALSE)) {
+        if (variable_get('mirrors_development_mode', FALSE)) {
           drupal_set_message("The node property " . $property . " cannot be handled", 'warning');
         }
       }

@@ -1,0 +1,5 @@
+name = Mirrors Extra Fields [EXPERIMENTAL]
+description = Fields from popular contrib modules. @see: https://www.drupal.org/project/mirrors
+package = Mirrors
+core = 7.x
+dependencies[] = mirrors

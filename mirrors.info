@@ -2,6 +2,7 @@ name = Mirrors
 description = Migrate content with automatic created Export Views and Import Feeds
 package = Mirrors
 core = 7.x
+dependencies[] = ctools
 dependencies[] = views
 dependencies[] = views_data_export (>7.x-3.0-beta6+42)
 dependencies[] = entity

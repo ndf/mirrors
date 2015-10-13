@@ -19,6 +19,27 @@
  */
 define('MIRRORS_DEFAULT_SEPARATOR', '/');
 
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function mirrors_ctools_plugin_type() {
+  return array(
+    'entity' => array(),
+    'property' => array(),
+    'field' => array(),
+  );
+}
+
+/**
+ * Implements ctools_plugin_directory().
+ */
+function mirrors_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'mirrors') {
+    return "plugins/$plugin";
+  }
+}
+
 /**
  * Implements hook_permission().
  */
@@ -37,11 +58,11 @@ function mirrors_permission() {
 function mirrors_menu() {
   $items = array();
   $items['admin/structure/mirrors'] = array(
-    'title'             => 'Mirrors',
-    'description'       => 'Manage Mirrors settings for each bundle.',
-    'page callback'     => 'mirrors_admin_page',
-    'access arguments'  => array('administer mirrors'),
-    'file'              => 'mirrors.admin.inc',
+    'title' => 'Mirrors',
+    'description' => 'Manage Mirrors settings for each bundle.',
+    'page callback' => 'mirrors_admin_page',
+    'access arguments' => array('administer mirrors'),
+    'file' => 'mirrors.admin.inc',
   );
   return $items;
 }
@@ -202,7 +223,8 @@ function mirrors_feeds_tamper_default() {
  * Returns supported entity_types, hookable.
  */
 function mirrors_entity_types() {
-
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('mirrors', 'entity');
   $mirrors_entity_types = mirrors_entity_types_defaults();
   drupal_alter('mirrors_entity_types', $mirrors_entity_types);
 
@@ -213,22 +235,16 @@ function mirrors_entity_types() {
  * Returns supported field_types, hookable.
  */
 function mirrors_field_types() {
-
-  $mirrors_field_types = mirrors_field_types_defaults();
-  drupal_alter('mirrors_field_types', $mirrors_field_types);
-
-  return $mirrors_field_types;
+  ctools_include('plugins');
+  return ctools_get_plugins('mirrors', 'field');
 }
 
 /**
  * Returns supported property_types, hookable.
  */
 function mirrors_property_types() {
-
-  $mirrors_property_types = mirrors_property_types_defaults();
-  drupal_alter('mirrors_property_types', $mirrors_property_types);
-
-  return $mirrors_property_types;
+  ctools_include('plugins');
+  return ctools_get_plugins('mirrors', 'property');
 }
 
 /**

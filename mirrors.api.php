@@ -3,6 +3,11 @@
 /**
  * @file
  * Documentation of Mirrors hooks.
+ *
+ * DEPRECATED: REFACTORED TO CTOOLS PLUGINS
+ *
+ * @todo update API documentation
+ * @see: mirrors/contrib for examples
  */
 
 /**

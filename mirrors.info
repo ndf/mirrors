@@ -1,5 +1,5 @@
 name = Mirrors
-description = Migrate content with automatic created Export Views and Import Feeds
+description = Import and Export Drupal core entities with Feeds and Views.
 package = Mirrors
 core = 7.x
 dependencies[] = ctools

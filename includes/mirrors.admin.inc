@@ -21,8 +21,7 @@ function mirrors_admin_form($form, &$form_state) {
 
   $form = array();
 
-  $form['#prefix'] = t("Mirrors automagically creates exporters and importers for active
-bundles. This is done through the Views and Feeds modules.<br/>If enabled you get 2 links to the respective importer and exporter UI.<br/><br/>");
+  $form['#prefix'] = t("Import and Export entities with Feeds and Views.<br/>If enabled you get 2 links to the respective importer and exporter UI.<br/><br/>");
 
   // Set the table header.
   $header = array(

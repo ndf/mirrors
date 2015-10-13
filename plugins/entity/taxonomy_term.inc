@@ -7,6 +7,8 @@
 
 /**
  * Entity Declaration: taxonomy term.
+ *
+ * @todo Property "tid" not supported by feeds. Using "name" as unique identifier.
  */
 $plugin = array(
   'title' => t('Taxonomy term'),

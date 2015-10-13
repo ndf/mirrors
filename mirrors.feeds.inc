@@ -55,8 +55,8 @@ function mirrors_feeds_mapping_create($mirrors_entity) {
     }
 
     // Set GUID field.
-    if (isset($property['unique']) && $property['unique'] == 1) {
-      $mapper['unique'] = $property['unique'];
+    if (isset($property['feeds']['unique']) && $property['feeds']['unique'] == 1) {
+      $mapper['unique'] = $property['feeds']['unique'];
     }
     else {
       $mapper['unique'] = 0;

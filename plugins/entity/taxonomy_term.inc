@@ -5,9 +5,47 @@
  * Mirrors Node entity plugin declaration.
  */
 
+/**
+ * Entity Declaration: taxonomy term.
+ */
 $plugin = array(
   'title' => t('Taxonomy term'),
-  'description' => t('Taxonomy term mirror'),
   'category' => 'Entity',
-  'defaults' => array(),
+  'views' => array(
+    'base_table' => 'taxonomy_term_data',
+    'filters' => array(
+      'machine_name' => 'taxonomy_vocabulary',
+    ),
+    'relationships' => array(
+      'parent' => 'taxonomy_term_hierarchy',
+    ),
+    'sorts' => array(
+      'tid' => 'taxonomy_term_data',
+    ),
+  ),
+  'feeds' => array(
+    'processor' => 'FeedsTermProcessor',
+  ),
+  'properties' => array(
+    // TermID not supported by Feeds.
+    'name' => array(
+      'type' => 'text',
+      'feeds' => array(
+        'unique' => TRUE,
+      ),
+    ),
+    'parent' => array(
+      'type' => 'integer',
+      'views' => array(
+        'field' => 'name',
+        'relationship' => 'parent',
+      ),
+    ),
+    'weight' => array(
+      'type' => 'integer',
+    ),
+    'description' => array(
+      'type' => 'text',
+    ),
+  ),
 );

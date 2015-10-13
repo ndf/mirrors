@@ -224,11 +224,7 @@ function mirrors_feeds_tamper_default() {
  */
 function mirrors_entity_types() {
   ctools_include('plugins');
-  $plugins = ctools_get_plugins('mirrors', 'entity');
-  $mirrors_entity_types = mirrors_entity_types_defaults();
-  drupal_alter('mirrors_entity_types', $mirrors_entity_types);
-
-  return $mirrors_entity_types;
+  return ctools_get_plugins('mirrors', 'entity');
 }
 
 /**

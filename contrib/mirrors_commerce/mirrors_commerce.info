@@ -1,6 +1,6 @@
 name = Mirrors Commerce [EXPERIMENTAL]
 description = Import and Export Commerce entities with Feeds and Views.
-package = Mirrors
+package = Import Export
 core = 7.x
 dependencies[] = mirrors
 dependencies[] = commerce

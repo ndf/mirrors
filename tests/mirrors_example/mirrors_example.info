@@ -1,7 +1,7 @@
 name = Mirrors Example
 description = Creates test bundles with and without fields of type node and taxonomy.
 core = 7.x
-package = Mirrors
+package = Import Export
 dependencies[] = features
 dependencies[] = list
 dependencies[] = number

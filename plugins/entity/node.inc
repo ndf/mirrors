@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Mirrors Node entity plugin declaration.
+ * Mirrors entity plugin declaration.
  */
 
 /**

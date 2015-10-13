@@ -3,6 +3,9 @@
 /**
  * @file
  * Feeds Default Template
+ *
+ * @todo: this is a template for 'explode' operation
+ * @todo: make this callable from field-plugin definition
  */
 
 /**

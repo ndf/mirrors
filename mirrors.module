@@ -62,7 +62,7 @@ function mirrors_menu() {
     'description' => 'Manage Mirrors settings for each bundle.',
     'page callback' => 'mirrors_admin_page',
     'access arguments' => array('administer mirrors'),
-    'file' => 'mirrors.admin.inc',
+    'file' => 'includes/mirrors.admin.inc',
   );
   return $items;
 }
@@ -94,7 +94,6 @@ function mirrors_ctools_plugin_api() {
  * to create exporters and importers.
  */
 function mirrors_bundles() {
-  module_load_include('inc', 'mirrors', 'mirrors.defaults');
 
   $mirrors_bundles = _mirrors_supported_bundles();
   _mirrors_add_property_settings($mirrors_bundles);
@@ -138,7 +137,7 @@ function mirrors_enabled_bundles() {
  * Implements hook_views_default_views().
  */
 function mirrors_views_default_views() {
-  module_load_include('inc', 'mirrors', 'mirrors.views');
+  module_load_include('inc', 'mirrors', 'includes/views/mirrors.views');
 
   $export = array();
   $mirrors_enabled_bundles = mirrors_enabled_bundles();
@@ -161,7 +160,7 @@ function mirrors_views_default_views() {
  * Implements hook_feeds_importer_default().
  */
 function mirrors_feeds_importer_default() {
-  module_load_include('inc', 'mirrors', 'mirrors.feeds');
+  module_load_include('inc', 'mirrors', 'includes/feeds/mirrors.feeds');
 
   $export = array();
   $mirrors_enabled_bundles = mirrors_enabled_bundles();
@@ -190,7 +189,7 @@ function mirrors_feeds_importer_default() {
  * @todo: list is not working for entity-reference.
  */
 function mirrors_feeds_tamper_default() {
-  module_load_include('inc', 'mirrors', 'mirrors.feeds_tamper');
+  module_load_include('inc', 'mirrors', 'includes/feeds_tamper/mirrors.feeds_tamper');
 
   $export = array();
   $mirrors_enabled_bundles = mirrors_enabled_bundles();

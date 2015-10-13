@@ -5,12 +5,12 @@
  * Views Related
  */
 
-module_load_include('inc', 'mirrors', 'mirrors.views.template');
-
 /**
  * Creates a View object (the exporter).
  */
 function mirrors_views_create($name, $entity_type, $entity_id, $mirrors_entity) {
+  module_load_include('inc', 'mirrors', 'includes/views/mirrors.views.template');
+
   $base_table = $mirrors_entity['views']['base_table'];
 
   /* Display Options */

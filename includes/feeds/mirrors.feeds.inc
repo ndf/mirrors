@@ -5,12 +5,12 @@
  * Feeds Related
  */
 
-module_load_include('inc', 'mirrors', 'mirrors.feeds.template');
-
 /**
  * Creates a Feed object (the importer).
  */
 function mirrors_feeds_create($name, $entity_type, $entity_id, $mirrors_entity) {
+  module_load_include('inc', 'mirrors', 'includes/feeds/mirrors.feeds.template');
+
   $processor = $mirrors_entity['feeds']['processor'];
   $config = mirrors_feeds_default_template($name, $entity_type, $entity_id, $processor);
   $mapping = mirrors_feeds_mapping_create($mirrors_entity);

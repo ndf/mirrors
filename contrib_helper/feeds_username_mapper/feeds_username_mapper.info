@@ -1,0 +1,5 @@
+name = Feeds Username Mapper
+description = This plugin will lookup a username and return its uid
+package = Feeds
+core = 7.x
+dependencies[] = feeds

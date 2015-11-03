@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * @file
+ * Feeds User Mapper for any uid-property.
+ */
+
+/**
+ * Implements hook_feeds_processor_targets_alter().
+ */
+function feeds_username_mapper_feeds_processor_targets_alter(&$targets, $entity_type, $bundle) {
+  if (isset($targets['uid'])) {
+    $targets['uid:username_mapper'] = array(
+      'name' => $targets['uid']['name'] . ': ' . t('User name'),
+      'description' => t('The Drupal username of the author.'),
+      'callback' => 'feeds_username_mapper_name_lookup',
+      'real_target' => 'uid',
+    );
+    $targets['uid:usermail_mapper'] = array(
+      'name' => $targets['uid']['name'] . ': ' . t('User mail'),
+      'description' => t('The Drupal e-mail address of the author.'),
+      'callback' => 'feeds_username_mapper_mail_lookup',
+      'real_target' => 'uid',
+    );
+  }
+}
+
+/**
+ * Callback for mapping. Here is where the actual mapping happens.
+ *
+ * When the callback is invoked, $target contains the name of the field the
+ * user has decided to map to and $value contains the value of the feed item
+ * element the user has picked as a source.
+ */
+function feeds_username_mapper_name_lookup($source, $entity, $target, $value) {
+  if (empty($value)) {
+    return;
+  }
+
+  // Handle non-multiple value fields.
+  if (!is_array($value)) {
+    $value = array($value);
+  }
+
+  if ($user = user_load_by_name($value)) {
+    $entity->uid = $user->uid;
+  }
+}
+
+/**
+ * Callback for mapping. Here is where the actual mapping happens.
+ *
+ * When the callback is invoked, $target contains the name of the field the
+ * user has decided to map to and $value contains the value of the feed item
+ * element the user has picked as a source.
+ */
+function feeds_username_mapper_mail_lookup($source, $entity, $target, $value) {
+  if (empty($value)) {
+    return;
+  }
+
+  // Handle non-multiple value fields.
+  if (!is_array($value)) {
+    $value = array($value);
+  }
+
+  if ($user = user_load_by_mail($value)) {
+    $entity->uid = $user->uid;
+  }
+}

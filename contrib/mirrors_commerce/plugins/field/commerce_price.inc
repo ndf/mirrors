@@ -13,7 +13,12 @@
 $plugin = array(
   'title' => t('Commerce Price'),
   'category' => 'Field',
-  'views' => array(),
+  'views' => array(
+    'type' => 'commerce_price_raw_amount',
+    'settings' => array(
+      'calculation' => '0',
+    ),
+  ),
   'feeds' => array(
     'target' => 'SELF:amount',
   ),

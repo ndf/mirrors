@@ -6,32 +6,32 @@
  */
 
 /**
- * Entity Declaration: Commerce Store.
+ * Entity Declaration: Commerce Order.
  */
 $plugin = array(
-  'title' => t('Commerce Store'),
+  'title' => t('Commerce Order'),
   'category' => 'Entity',
   'views' => array(
-    'base_table' => 'commerce_store',
+    'base_table' => 'commerce_order',
   ),
   'feeds' => array(
-    'processor' => 'FeedsEntityProcessorCommerce_store',
+    'processor' => 'FeedsEntityProcessorCommerce_order',
   ),
   'properties' => array(
-    'store_id' => array(
+    'order_id' => array(
       'type' => 'integer',
     ),
-    'title' => array(
+    'order_number' => array(
       'type' => 'text',
-      'feeds' => array(
-        'unique' => TRUE,
-      ),
     ),
-    'language' => array(
+    'uid' => array(
+      'type' => 'uid',
+    ),
+    'mail' => array(
       'type' => 'text',
     ),
     'status' => array(
-      'type' => 'boolean',
+      'type' => 'text',
     ),
     'created' => array(
       'type' => 'date',
@@ -39,8 +39,8 @@ $plugin = array(
     'changed' => array(
       'type' => 'date',
     ),
-    'uid' => array(
-      'type' => 'uid',
+    'hostname' => array(
+      'type' => 'text',
     ),
   ),
 );

@@ -17,6 +17,11 @@
 $plugin = array(
   'title' => t('User'),
   'category' => 'Property',
+  'views_instance' => array(
+    'relationships' => array(
+      'uid' => 'BASE_TABLE',
+    ),
+  ),
   'views' => array(
     'field' => 'name',
     'relationship' => 'uid',

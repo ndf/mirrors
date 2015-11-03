@@ -15,23 +15,35 @@ $plugin = array(
     'base_table' => 'commerce_product',
   ),
   'feeds' => array(
-    'processor' => 'FeedsCommerceProductProcessor',
+    'processor' => 'FeedsEntityProcessorCommerce_product',
   ),
   'properties' => array(
-    'type' => array(
-      'type' => 'text',
-    ),
-    'status' => array(
-      'type' => 'boolean',
-    ),
-    'product_id' => array(
-      'type' => 'integer',
-    ),
+//    'product_id' => array(
+//      'type' => 'integer',
+//      'feeds' => array(
+//        'unique' => TRUE,
+//      ),
+//    ),
     'sku' => array(
       'type' => 'text',
     ),
     'title' => array(
       'type' => 'text',
+    ),
+    'language' => array(
+      'type' => 'text',
+    ),
+    'uid' => array(
+      'type' => 'uid',
+    ),
+    'status' => array(
+      'type' => 'boolean',
+    ),
+    'created' => array(
+      'type' => 'date',
+    ),
+    'changed' => array(
+      'type' => 'date',
     ),
   ),
 );

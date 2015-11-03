@@ -37,10 +37,7 @@ $plugin = array(
       ),
     ),
     'uid' => array(
-      'type' => 'text',
-      'views' => array(
-        'link_to_user' => FALSE,
-      ),
+      'type' => 'uid',
     ),
     'status' => array(
       'type' => 'boolean',

@@ -103,9 +103,15 @@ function mirrors_views_filters_create($mirrors_entity, $entity_id) {
 function mirrors_views_relationships_create($mirrors_entity) {
   $relationships = array();
 
+  $base_table = $mirrors_entity['views']['base_table'];
+
   // Extra Views Settings.
   if (isset($mirrors_entity['views']['relationships'])) {
     foreach ((array) $mirrors_entity['views']['relationships'] as $key => $relation) {
+      if ($relation == 'BASE_TABLE') {
+        $relation = $base_table;
+      }
+
       $relationships[$key]['id'] = $key;
       $relationships[$key]['table'] = $relation;
       $relationships[$key]['field'] = $key;

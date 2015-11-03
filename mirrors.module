@@ -287,6 +287,21 @@ function _mirrors_add_property_settings(&$mirrors_bundles) {
             $property,
             $mirrors_property_types[$property['type']]
           );
+
+          // Upcast instance settings.
+          if (isset($property['views_instance'])) {
+            $mirrors_bundle['views'] = array_merge_recursive(
+              $mirrors_bundle['views'],
+              $property['views_instance']
+            );
+          }
+          // Upcast instance settings.
+          if (isset($property['feeds_instance'])) {
+            $mirrors_bundle['feeds'] = array_merge_recursive(
+              $mirrors_bundle['feeds'],
+              $property['feeds_instance']
+            );
+          }
         }
       }
     }

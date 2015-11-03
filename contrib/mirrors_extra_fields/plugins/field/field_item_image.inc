@@ -19,5 +19,7 @@ $plugin = array(
       'image_link' => '',
     ),
   ),
-  'feeds' => array(),
+  'feeds' => array(
+    'target' => 'SELF:uri',
+  ),
 );

@@ -18,9 +18,7 @@ $plugin = array(
     'processor' => 'FeedsEntityProcessorCommerce_store',
   ),
   'properties' => array(
-    'store_id' => array(
-      'type' => 'integer',
-    ),
+    // Omitted store_id: auto-increment.
     'title' => array(
       'type' => 'text',
       'feeds' => array(
